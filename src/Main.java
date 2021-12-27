@@ -1,6 +1,5 @@
 import java.util.Map;
 import java.util.Scanner;
-
 import java.util.HashMap;
 
 public class Main {
@@ -25,7 +24,7 @@ public class Main {
 
         reader.close();
         */
-        Account myAcc = new Account(1000, 0.25, 500, 700, categories);
+        Account myAcc = new Account(1000.00, 0.25, 500.00, categories);
         myAcc.printReport();
     }
 }
