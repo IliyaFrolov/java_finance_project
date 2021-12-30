@@ -22,36 +22,45 @@ class Account {
     private Map<String, Double> categories = new HashMap<>();
     private List<List<Double>> summaryLog = new ArrayList<>();
 
-    private Account(double balanceBefore, double interest, double income) {
+    private Account(double balanceBefore, double interest, double income, double expenses, Map<String, Double> categories, int cycles) {
         this.totalBalance = balanceBefore;
         this.balanceBefore = balanceBefore;
         this.initialBalance = balanceBefore;
         this.interest = interest;
         this.income = income;
-    }
-
-    Account(double balanceBefore, double interest, double income, double expenses) {
-        this(balanceBefore, interest, income);
         this.expenses = expenses;
-    }
-
-    Account(double balanceBefore, double interest, double income, double expenses, int cycles) {
-        this(balanceBefore, interest, income);
-        this.cycles = cycles;
-        this.expenses = expenses;
-    }
-
-    Account(double balanceBefore, double interest, double income, Map<String, Double> categories) {
-        this(balanceBefore, interest, income);
         this.categories = categories;
-        calcExpenses();
+        this.cycles = cycles;
     }
 
-    Account(double balanceBefore, double interest, double income, Map<String, Double> categories, int cycles) {
-        this(balanceBefore, interest, income);
-        this.cycles = cycles;
-        this.categories = categories;
-        calcExpenses();
+    static Account createAccount(double balanceBefore, double interest, double income, double expenses) {
+        var instance = new Account(balanceBefore, interest, income, expenses, new HashMap<>(), 1);
+        instance.run();
+
+        return instance;
+    }
+
+    static Account createAccount(double balanceBefore, double interest, double income, double expenses, int cycles) {
+        var instance = new Account(balanceBefore, interest, income, expenses, new HashMap<>(), cycles);
+        instance.run();
+
+        return instance;
+    }
+
+    static Account createAccount(double balanceBefore, double interest, double income, Map<String, Double> categories) {
+        var instance = new Account(balanceBefore, interest, income, 0, categories, 1);
+        instance.calcExpenses();
+        instance.run();
+
+        return instance;
+    }
+
+    static Account createAccount(double balanceBefore, double interest, double income, Map<String, Double> categories, int cycles) {
+        var instance = new Account(balanceBefore, interest, income, 0, categories, cycles);
+        instance.calcExpenses();
+        instance.run();
+        
+        return instance;
     }
 
     private void calcExpenses() {
@@ -131,8 +140,8 @@ class Account {
             printCatBreakdown();
         }
     }
-    
-    void run() {
+
+    private void run() {
         for (int i = 0; i < cycles; i++) {
                 calcFinances();
                 resetAndSave();

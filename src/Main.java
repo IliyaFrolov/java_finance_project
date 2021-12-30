@@ -24,8 +24,7 @@ public class Main {
 
         reader.close();
         */
-        Account myAcc = new Account(1000.00, 0.25, 500.00, categories, 2);
-        myAcc.run();
+        Account myAcc = Account.createAccount(1000, 0.25, 500.00, categories, 2);
         myAcc.printCycleReport();
         myAcc.printFinalReport();
     }
