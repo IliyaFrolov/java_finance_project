@@ -26,5 +26,7 @@ public class Main {
         */
         Account myAcc = new Account(1000.00, 0.25, 500.00, categories, 2);
         myAcc.run();
+        myAcc.printCycleReport();
+        myAcc.printFinalReport();
     }
 }
