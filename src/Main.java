@@ -24,8 +24,9 @@ public class Main {
 
         reader.close();
         */
-        Account myAcc = Account.createAccount(1000, 0.25, 500.00, categories, 2);
+        Account myAcc = Account.createAccount(1000, 0.25, 500.00, 600, 3, Cycle.WEEK);
         myAcc.printCycleReport();
         myAcc.printFinalReport();
+        myAcc.printAverages(Cycle.DAY);
     }
 }
