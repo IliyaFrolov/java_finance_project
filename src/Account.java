@@ -39,13 +39,13 @@ enum Cycle {
 class Account {
     private double initialBalance;
     private double balanceBefore;
+    private List<Double> Interest;
+    private List<Double> Income;
+    private List<Double> Expense;
     private double totalInterestEarned = 0;
     private double interestEarned;
-    private double interest;
     private double totalIncome = 0;
-    private double income;
     private double totalExpenses = 0;
-    private double expenses;
     private double balanceAfter;
     private double totalSavings = 0;
     private double savings = 0;
@@ -54,42 +54,19 @@ class Account {
     private Map<String, Double> categories;
     private List<List<Double>> summaryLog = new ArrayList<>();
 
-    private Account(double balanceBefore, double interest, double income, double expenses, Map<String, Double> categories, int cycles, Cycle cycleType) {
+    private Account(double balanceBefore, Map<String, Double> categories, int cycles, Cycle cycleType, List<Double> Interest, List<Double> Income, List<Double> Expense) {
         this.balanceBefore = balanceBefore;
         this.initialBalance = balanceBefore;
-        this.interest = interest;
-        this.income = income;
-        this.expenses = expenses;
+        this.Interest = Interest;
+        this.Income = Income;
+        this.Expense = Expense;
         this.categories = categories;
         this.cycles = cycles;
         this.cycleType = cycleType;
     }
 
-    static Account createAccount(double balanceBefore, double interest, double income, double expenses) {
-        var instance = new Account(balanceBefore, interest, income, expenses, new HashMap<>(), 1, Cycle.MONTH);
-        instance.run();
-
-        return instance;
-    }
-
-    static Account createAccount(double balanceBefore, double interest, double income, double expenses, int cycles, Cycle cycleType) {
-        var instance = new Account(balanceBefore, interest, income, expenses, new HashMap<>(), cycles, cycleType);
-        instance.run();
-
-        return instance;
-    }
-
-    static Account createAccount(double balanceBefore, double interest, double income, Map<String, Double> categories) {
-        var instance = new Account(balanceBefore, interest, income, 0, categories, 1, Cycle.MONTH);
-        instance.calcExpenses();
-        instance.run();
-
-        return instance;
-    }
-
-    static Account createAccount(double balanceBefore, double interest, double income, Map<String, Double> categories, int cycles, Cycle cycleType) {
-        var instance = new Account(balanceBefore, interest, income, 0, categories, cycles, cycleType);
-        instance.calcExpenses();
+    static Account createAccount(double balanceBefore, List<Double> Interest, List<Double> Income, List<Double> Expense, int cycles, Cycle cycleType) {
+        var instance = new Account(balanceBefore, new HashMap<>(), cycles, cycleType, Interest, Income, Expense);
         instance.run();
 
         return instance;
@@ -97,11 +74,11 @@ class Account {
 
     private void calcExpenses() {
         for (double expense : categories.values()) {
-            expenses += expense;
+            //expenses += expense;
         }
     }
     
-    private void calcFinances() {
+    private void calcFinances(double interest, double income, double expenses) {
         interestEarned = balanceBefore*interest;
         totalInterestEarned += interestEarned;
         balanceAfter = balanceBefore + income - expenses + interestEarned;
@@ -112,7 +89,7 @@ class Account {
         totalExpenses += expenses;
     }
 
-    private void resetAndSave() {
+    private void resetAndSave(double interest, double income, double expenses) {
         summaryLog.add(Arrays.asList(balanceBefore, income, 
             expenses, interestEarned, 
             savings, balanceAfter));
@@ -131,7 +108,7 @@ class Account {
     }
 
     void printCycleReport() {
-        final String SUMMARY = "Summary for this %s(s) finances:\n" 
+        final String SUMMARY = "Summary for %s %d:\n" 
         + "Initial Balance - %.2f\n"
         + "Income - %.2f\n"
         + "Expenses - %.2f\n"
@@ -139,8 +116,8 @@ class Account {
         + "Savings - %.2f\n"
         + "Balance - %.2f\n";
 
-        for (List<Double> var : summaryLog) {
-            System.out.println(String.format(SUMMARY, cycleType.name().toLowerCase(), var.get(0), var.get(1), var.get(2), var.get(3), var.get(4), var.get(5)));
+        for (int i = 0; i < summaryLog.size(); ++i) {
+            System.out.println(String.format(SUMMARY, cycleType.name().toLowerCase(), i+1, summaryLog.get(i).get(0), summaryLog.get(i).get(1), summaryLog.get(i).get(2), summaryLog.get(i).get(3), summaryLog.get(i).get(4), summaryLog.get(i).get(5)));
 
             if (!categories.isEmpty()) {
                 printCatBreakdown();
@@ -170,8 +147,8 @@ class Account {
 
     private void run() {
         for (int i = 0; i < cycles; i++) {
-                calcFinances();
-                resetAndSave();
+                calcFinances(Interest.get(i), Income.get(i), Expense.get(i));
+                resetAndSave(Interest.get(i), Income.get(i), Expense.get(i));
         }
 
         double dayCycles = 0.00;

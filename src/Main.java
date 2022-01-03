@@ -1,6 +1,9 @@
 import java.util.Map;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -24,9 +27,13 @@ public class Main {
 
         reader.close();
         */
-        Account myAcc = Account.createAccount(1000, 0.25, 500.00, 600, 3, Cycle.WEEK);
+        double initialBalance = 2500;
+        List<Double> cyclicInterest = new ArrayList<>(Arrays.asList(0.00, 0.00, 0.00));
+        List<Double> cyclicIncome = new ArrayList<>(Arrays.asList(500.00, 400.00, 300.00));
+        List<Double> cyclicExpenses = new ArrayList<>(Arrays.asList(200.00, 150.00, 100.00));
+        Account myAcc = Account.createAccount(initialBalance, cyclicInterest, cyclicIncome, cyclicExpenses, 3, Cycle.MONTH);
         myAcc.printCycleReport();
         myAcc.printFinalReport();
-        myAcc.printAverages(Cycle.DAY);
+        myAcc.printAverages(Cycle.MONTH);
     }
 }
