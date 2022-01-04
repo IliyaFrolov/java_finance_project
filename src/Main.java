@@ -28,12 +28,12 @@ public class Main {
         reader.close();
         */
         double initialBalance = 2500;
-        List<Double> cyclicInterest = new ArrayList<>(Arrays.asList(0.00, 0.00, 0.00));
+        List<Double> cyclicInterest = new ArrayList<>(Arrays.asList(0.02, 0.01, 0.14));
         List<Double> cyclicIncome = new ArrayList<>(Arrays.asList(500.00, 400.00, 300.00));
         List<Double> cyclicExpenses = new ArrayList<>(Arrays.asList(200.00, 150.00, 100.00));
-        Account myAcc = Account.createAccount(initialBalance, cyclicInterest, cyclicIncome, cyclicExpenses, 3, Cycle.MONTH);
+        Account myAcc = Account.createAccount(initialBalance, 3, Cycle.MONTH, cyclicInterest, cyclicIncome, cyclicExpenses);
         myAcc.printCycleReport();
         myAcc.printFinalReport();
-        myAcc.printAverages(Cycle.MONTH);
+        myAcc.printAverages(Cycle.DAY);
     }
 }

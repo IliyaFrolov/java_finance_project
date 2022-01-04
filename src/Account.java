@@ -9,17 +9,17 @@ enum Cycle {
 
     private double avInterestEarned;
     private double avIncome;
-    private double avExpenses;
+    private double avExpense;
     private double avSavings;
 
-    void calcAverages(double totalInterestEarned, double totalIncome, double totalExpenses, double totalSavings, double cycles) {
+    void calcAverages(double totalInterestEarned, double totalIncome, double totalExpense, double totalSavings, double cycles) {
         if (cycles == 0) {
             return;
         }
 
         this.avInterestEarned = totalInterestEarned/cycles;
         this.avIncome = totalIncome/cycles;
-        this.avExpenses = totalExpenses/cycles;
+        this.avExpense = totalExpense/cycles;
         this.avSavings = totalSavings/cycles;
     }
     
@@ -28,54 +28,87 @@ enum Cycle {
         final String SUMMARY = "Summary of averages per %s:\n" 
         + "Average interest earned - %.2f\n"
         + "Average income - %.2f\n"
-        + "Average expenses - %.2f\n"
-        + "Average Savings - %.2f";
+        + "Average expense - %.2f\n"
+        + "Average savings - %.2f";
 
-        return String.format(SUMMARY, this.name().toLowerCase(), avInterestEarned, avIncome, avExpenses, avSavings); 
+        return String.format(SUMMARY, this.name().toLowerCase(), avInterestEarned, avIncome, avExpense, avSavings); 
     }
     
+}
+
+class CashFlow {
+    private double interestEarned;
+    private double income;
+    private double expense;
+
+    double getInterestEarned() {
+        return interestEarned;
+    }
+
+    void setInterestEarned(double interestEarned) {
+        this.interestEarned = interestEarned;
+    }
+
+    double getIncome() {
+        return income;
+    }
+
+    double getExpense() {
+        return expense;
+    }
+
+    double getProfit() {
+        return income + interestEarned - expense;
+    }
 }
 
 class Account {
     private double initialBalance;
     private double balanceBefore;
-    private List<Double> Interest;
-    private List<Double> Income;
-    private List<Double> Expense;
-    private double totalInterestEarned = 0;
-    private double interestEarned;
-    private double totalIncome = 0;
-    private double totalExpenses = 0;
     private double balanceAfter;
+    private List<Double> interest;
+    private double interestEarned;
+    private List<Double> income;
+    private List<Double> expense;
+    private List<Double> savings = new ArrayList<>();
+    private double totalInterestEarned = 0;
+    private double totalIncome = 0;
+    private double totalExpense = 0;
     private double totalSavings = 0;
-    private double savings = 0;
     private int cycles = 1;
     private Cycle cycleType;
-    private Map<String, Double> categories;
+    private List<Map<String, Double>> categories;
     private List<List<Double>> summaryLog = new ArrayList<>();
 
-    private Account(double balanceBefore, Map<String, Double> categories, int cycles, Cycle cycleType, List<Double> Interest, List<Double> Income, List<Double> Expense) {
+    private Account(double balanceBefore, List<Map<String, Double>> categories, int cycles, Cycle cycleType, List<Double> interest, List<Double> income, List<Double> expense) {
         this.balanceBefore = balanceBefore;
         this.initialBalance = balanceBefore;
-        this.Interest = Interest;
-        this.Income = Income;
-        this.Expense = Expense;
         this.categories = categories;
         this.cycles = cycles;
         this.cycleType = cycleType;
+        this.interest = interest;
+        this.income = income;
+        this.expense = expense;
     }
 
-    static Account createAccount(double balanceBefore, List<Double> Interest, List<Double> Income, List<Double> Expense, int cycles, Cycle cycleType) {
-        var instance = new Account(balanceBefore, new HashMap<>(), cycles, cycleType, Interest, Income, Expense);
+    static Account createAccount(double balanceBefore, int cycles, Cycle cycleType, List<Double> interest, List<Double> income, List<Double> expense) {
+        var instance = new Account(balanceBefore, new ArrayList<>(), cycles, cycleType, interest, income, expense);
+        instance.run();
+
+        return instance;
+    }
+
+    static Account createAccount(double balanceBefore, int cycles, Cycle cycleType, List<Map<String, Double>> categories, List<Double> interest, List<Double> income, boolean isCat) {
+        var instance = new Account(balanceBefore, categories, cycles, cycleType, interest, income, new ArrayList<>());
         instance.run();
 
         return instance;
     }
 
     private void calcExpenses() {
-        for (double expense : categories.values()) {
-            //expenses += expense;
-        }
+        /*for (double expense : categories.values()) {
+            expenses += expense;
+        }*/
     }
     
     private void calcFinances(double interest, double income, double expenses) {
@@ -83,36 +116,37 @@ class Account {
         totalInterestEarned += interestEarned;
         balanceAfter = balanceBefore + income - expenses + interestEarned;
         double temp = balanceAfter - balanceBefore;
-        savings = temp < 0 ? 0 : temp;
-        totalSavings += savings;
+        double currSavings = temp < 0 ? 0 : temp;
+        savings.add(currSavings);
+        totalSavings += currSavings;
         totalIncome += income;
-        totalExpenses += expenses;
+        totalExpense += expenses;
     }
 
-    private void resetAndSave(double interest, double income, double expenses) {
-        summaryLog.add(Arrays.asList(balanceBefore, income, 
-            expenses, interestEarned, 
-            savings, balanceAfter));
+    private void resetAndSave(double currInterest, double currIncome, double currExpenses, double currSavings) { //doesnt make sense anymore, saving the same list
+        summaryLog.add(Arrays.asList(balanceBefore, currIncome, 
+            currExpenses, interestEarned, 
+            currSavings, balanceAfter));
 
         balanceBefore = balanceAfter;
     }
 
     private void printCatBreakdown() {
-        System.out.println("\nCategory Breakdown:");
+        /*System.out.println("\nCategory Breakdown:");
 
         for (var category : categories.entrySet()) {
             System.out.println(String.format("%s - %.2f", category.getKey(), category.getValue()));
         }
 
-        System.out.println();
+        System.out.println();*/
     }
 
     void printCycleReport() {
         final String SUMMARY = "Summary for %s %d:\n" 
-        + "Initial Balance - %.2f\n"
+        + "Initial balance - %.2f\n"
         + "Income - %.2f\n"
-        + "Expenses - %.2f\n"
-        + "Interest Earned - %.2f\n"
+        + "Expense - %.2f\n"
+        + "Interest earned - %.2f\n"
         + "Savings - %.2f\n"
         + "Balance - %.2f\n";
 
@@ -127,14 +161,14 @@ class Account {
     
     void printFinalReport() {
         final String SUMMARY = "Final Summary of finances after %d %s(s):\n" 
-        + "Initial Balance - %.2f\n"
-        + "Total Income - %.2f\n"
-        + "Total Expenses - %.2f\n"
-        + "Total Interest Earned - %.2f\n"
-        + "Total Savings - %.2f\n"
-        + "Total Balance - %.2f\n";
+        + "Initial balance - %.2f\n"
+        + "Total income - %.2f\n"
+        + "Total expense - %.2f\n"
+        + "Total interest earned - %.2f\n"
+        + "Total savings - %.2f\n"
+        + "Total balance - %.2f\n";
 
-        System.out.println(String.format(SUMMARY, cycles, cycleType.name().toLowerCase(), initialBalance, totalIncome, totalExpenses, totalInterestEarned, totalSavings, balanceAfter));
+        System.out.println(String.format(SUMMARY, cycles, cycleType.name().toLowerCase(), initialBalance, totalIncome, totalExpense, totalInterestEarned, totalSavings, balanceAfter));
 
         if (!categories.isEmpty()) {
             printCatBreakdown();
@@ -147,8 +181,8 @@ class Account {
 
     private void run() {
         for (int i = 0; i < cycles; i++) {
-                calcFinances(Interest.get(i), Income.get(i), Expense.get(i));
-                resetAndSave(Interest.get(i), Income.get(i), Expense.get(i));
+                calcFinances(interest.get(i), income.get(i), expense.get(i));
+                resetAndSave(interest.get(i), income.get(i), expense.get(i), savings.get(i));
         }
 
         double dayCycles = 0.00;
@@ -174,8 +208,8 @@ class Account {
                 monthCycles = cycles;
         }
 
-        Cycle.DAY.calcAverages(totalInterestEarned, totalIncome, totalExpenses, totalSavings, dayCycles);
-        Cycle.WEEK.calcAverages(totalInterestEarned, totalIncome, totalExpenses, totalSavings, weekCycles);
-        Cycle.MONTH.calcAverages(totalInterestEarned, totalIncome, totalExpenses, totalSavings, monthCycles);
+        Cycle.DAY.calcAverages(totalInterestEarned, totalIncome, totalExpense, totalSavings, dayCycles);
+        Cycle.WEEK.calcAverages(totalInterestEarned, totalIncome, totalExpense, totalSavings, weekCycles);
+        Cycle.MONTH.calcAverages(totalInterestEarned, totalIncome, totalExpense, totalSavings, monthCycles);
     }
 }
