@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,16 +36,14 @@ enum Cycle {
 }
 
 class CashFlow {
-    private double interestEarned;
     private double income;
     private double expense;
+    private double interest;
 
-    double getInterestEarned() {
-        return interestEarned;
-    }
-
-    void setInterestEarned(double interestEarned) {
-        this.interestEarned = interestEarned;
+    CashFlow(double income, double expense, double interest) {
+        this.income = income;
+        this.expense = expense;
+        this.interest = interest;
     }
 
     double getIncome() {
@@ -57,8 +54,16 @@ class CashFlow {
         return expense;
     }
 
-    double getProfit() {
-        return income + interestEarned - expense;
+    double getInterest() {
+        return interest;
+    }
+
+    double getInterestEarned(double balanceBefore) {
+        return interest * balanceBefore;
+    }
+
+    double getProfit(double balanceBefore) {
+        return income + getInterestEarned(balanceBefore) - expense;
     }
 }
 
@@ -66,10 +71,7 @@ class Account {
     private double initialBalance;
     private double balanceBefore;
     private double balanceAfter;
-    private List<Double> interest;
-    private double interestEarned;
-    private List<Double> income;
-    private List<Double> expense;
+    private List<CashFlow> cashFlowList;
     private List<Double> savings = new ArrayList<>();
     private double totalInterestEarned = 0;
     private double totalIncome = 0;
@@ -80,30 +82,28 @@ class Account {
     private List<Map<String, Double>> categories;
     private List<List<Double>> summaryLog = new ArrayList<>();
 
-    private Account(double balanceBefore, List<Map<String, Double>> categories, int cycles, Cycle cycleType, List<Double> interest, List<Double> income, List<Double> expense) {
+    private Account(double balanceBefore, List<Map<String, Double>> categories, int cycles, Cycle cycleType, List<CashFlow> cashFlowList)  {
         this.balanceBefore = balanceBefore;
         this.initialBalance = balanceBefore;
         this.categories = categories;
         this.cycles = cycles;
         this.cycleType = cycleType;
-        this.interest = interest;
-        this.income = income;
-        this.expense = expense;
+        this.cashFlowList = cashFlowList;
     }
 
-    static Account createAccount(double balanceBefore, int cycles, Cycle cycleType, List<Double> interest, List<Double> income, List<Double> expense) {
-        var instance = new Account(balanceBefore, new ArrayList<>(), cycles, cycleType, interest, income, expense);
+    static Account createAccount(double balanceBefore, int cycles, Cycle cycleType, List<CashFlow> cashFlowList) {
+        var instance = new Account(balanceBefore, new ArrayList<>(), cycles, cycleType, cashFlowList);
         instance.run();
 
         return instance;
     }
-
+    /*
     static Account createAccount(double balanceBefore, int cycles, Cycle cycleType, List<Map<String, Double>> categories, List<Double> interest, List<Double> income, boolean isCat) {
         var instance = new Account(balanceBefore, categories, cycles, cycleType, interest, income, new ArrayList<>());
         instance.run();
 
         return instance;
-    }
+    }*/
 
     private void calcExpenses() {
         /*for (double expense : categories.values()) {
@@ -111,22 +111,21 @@ class Account {
         }*/
     }
     
-    private void calcFinances(double interest, double income, double expenses) {
-        interestEarned = balanceBefore*interest;
-        totalInterestEarned += interestEarned;
-        balanceAfter = balanceBefore + income - expenses + interestEarned;
-        double temp = balanceAfter - balanceBefore;
-        double currSavings = temp < 0 ? 0 : temp;
-        savings.add(currSavings);
+    private void calcFinances(CashFlow cashFlow) {
+        double currSavings = cashFlow.getProfit(balanceBefore);
+
+        balanceAfter = balanceBefore + currSavings;
+        savings.add(currSavings < 0 ? 0 : currSavings);
+        totalInterestEarned += cashFlow.getInterestEarned(balanceBefore);
         totalSavings += currSavings;
-        totalIncome += income;
-        totalExpense += expenses;
+        totalIncome += cashFlow.getIncome();
+        totalExpense += cashFlow.getExpense();
     }
 
-    private void resetAndSave(double currInterest, double currIncome, double currExpenses, double currSavings) { //doesnt make sense anymore, saving the same list
-        summaryLog.add(Arrays.asList(balanceBefore, currIncome, 
-            currExpenses, interestEarned, 
-            currSavings, balanceAfter));
+    private void resetAndSave(CashFlow cashFlow) { 
+        summaryLog.add(Arrays.asList(balanceBefore, cashFlow.getIncome(), 
+            cashFlow.getExpense(), cashFlow.getInterestEarned(balanceBefore), 
+            cashFlow.getProfit(balanceBefore), balanceAfter));
 
         balanceBefore = balanceAfter;
     }
@@ -181,8 +180,10 @@ class Account {
 
     private void run() {
         for (int i = 0; i < cycles; i++) {
-                calcFinances(interest.get(i), income.get(i), expense.get(i));
-                resetAndSave(interest.get(i), income.get(i), expense.get(i), savings.get(i));
+            CashFlow cashFlow = cashFlowList.get(i);
+
+            calcFinances(cashFlow);
+            resetAndSave(cashFlow);
         }
 
         double dayCycles = 0.00;
