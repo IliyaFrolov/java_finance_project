@@ -10,12 +10,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        Map<String, Double> categories = new HashMap<>();
-        categories.put("Entertainment", 30.00);
-        categories.put("Memberships", 70.00);
-        categories.put("Eating out", 90.00);
-        categories.put("Groceries", 100.00);
-        categories.put("Other", 5.00);
+        List<Map<String, Double>> categories = new ArrayList<>(Arrays.asList());
         /*
         Scanner reader = new Scanner(System.in);
 
@@ -33,15 +28,12 @@ public class Main {
         double initialBalance = 2500;
         List<Double> cInt = new ArrayList<>(Arrays.asList(0.02, 0.01, 0.14));
         List<Double> cInc = new ArrayList<>(Arrays.asList(500.00, 400.00, 300.00));
-        List<Double> cExp = new ArrayList<>(Arrays.asList(200.00, 150.00, 100.00));
+        List<Double> cExp = new ArrayList<>(Arrays.asList(800.00, 500.00, 650.00));
         List<CashFlow> cashFlowList = IntStream.range(0, cInt.size()).mapToObj(i -> new CashFlow(cInc.get(i), cExp.get(i), cInt.get(i))).collect(Collectors.toList());
 
-        for (CashFlow cashFlow : cashFlowList) {
-                System.out.println(cashFlow.getInterest());
-        }
         Account myAcc = Account.createAccount(initialBalance, 3, Cycle.MONTH, cashFlowList);
         myAcc.printCycleReport();
         myAcc.printFinalReport();
-        myAcc.printAverages(Cycle.DAY);
+        myAcc.printAverages(Cycle.WEEK);
     }
 }
