@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 class Account {
     private Balance balance;
@@ -13,35 +12,20 @@ class Account {
     private double totalProfit = 0;
     private int cycles = 1;
     private Cycle cycleType;
-    private List<Map<String, Double>> categories;
     private List<List<Double>> summaryLog = new ArrayList<>();
 
-    private Account(Balance balance, List<Map<String, Double>> categories, int cycles, Cycle cycleType, List<CashFlow> cashFlowList)  {
+    private Account(Balance balance, int cycles, Cycle cycleType, List<CashFlow> cashFlowList)  {
         this.balance = balance;
-        this.categories = categories;
         this.cycles = cycles;
         this.cycleType = cycleType;
         this.cashFlowList = cashFlowList;
     }
 
     static Account createAccount(double initBalance, int cycles, Cycle cycleType, List<CashFlow> cashFlowList) {
-        var instance = new Account(new Balance(initBalance), new ArrayList<>(), cycles, cycleType, cashFlowList);
+        var instance = new Account(new Balance(initBalance), cycles, cycleType, cashFlowList);
         instance.run();
 
         return instance;
-    }
-    /*
-    static Account createAccount(double balanceBefore, int cycles, Cycle cycleType, List<Map<String, Double>> categories, List<Double> interest, List<Double> income, boolean isCat) {
-        var instance = new Account(balanceBefore, categories, cycles, cycleType, interest, income, new ArrayList<>());
-        instance.run();
-
-        return instance;
-    }*/
-
-    private void calcExpenses() {
-        /*for (double expense : categories.values()) {
-            expenses += expense;
-        }*/
     }
     
     private void calcFinances(CashFlow cashFlow) {
@@ -68,16 +52,6 @@ class Account {
         ));
     }
 
-    private void printCatBreakdown() {
-        /*System.out.println("\nCategory Breakdown:");
-
-        for (var category : categories.entrySet()) {
-            System.out.println(String.format("%s - %.2f", category.getKey(), category.getValue()));
-        }
-
-        System.out.println();*/
-    }
-
     void printCycleReport() {
         final String SUMMARY = "Summary for %s %d:\n" 
         + "Initial balance - %.2f\n"
@@ -88,6 +62,8 @@ class Account {
         + "Balance - %.2f\n";
 
         for (int i = 0; i < summaryLog.size(); ++i) {
+            ExpCategories categories = cashFlowList.get(i).getCategories();
+
             System.out.println(String.format(
                 SUMMARY, 
                 cycleType.name().toLowerCase(), 
@@ -100,8 +76,8 @@ class Account {
                 summaryLog.get(i).get(5)
             ));
 
-            if (!categories.isEmpty()) {
-                printCatBreakdown();
+            if (categories != null) {
+                System.out.println(categories);
             }
         }
     }
@@ -126,9 +102,9 @@ class Account {
             totalProfit, 
             balance.getNextBalance()
         ));
-
-        if (!categories.isEmpty()) {
-            printCatBreakdown();
+        
+        if (cashFlowList.get(0).getCategories() != null) {
+            System.out.println(ExpCategories.getSummary());
         }
     }
 
@@ -166,8 +142,8 @@ class Account {
                 monthCycles = cycles;
         }
 
-        Cycle.DAY.calcAverages(totalInterestEarned, totalIncome, totalExpense, totalProfit, dayCycles);
-        Cycle.WEEK.calcAverages(totalInterestEarned, totalIncome, totalExpense, totalProfit, weekCycles);
-        Cycle.MONTH.calcAverages(totalInterestEarned, totalIncome, totalExpense, totalProfit, monthCycles);
+        Cycle.DAY.calcAverages(totalInterestEarned, totalIncome, totalExpense, totalProfit, dayCycles, ExpCategories.getTotalsList());
+        Cycle.WEEK.calcAverages(totalInterestEarned, totalIncome, totalExpense, totalProfit, weekCycles, ExpCategories.getTotalsList());
+        Cycle.MONTH.calcAverages(totalInterestEarned, totalIncome, totalExpense, totalProfit, monthCycles, ExpCategories.getTotalsList());
     }
 }
