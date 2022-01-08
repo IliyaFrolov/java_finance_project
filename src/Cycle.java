@@ -4,6 +4,7 @@ enum Cycle {
     DAY, WEEK, MONTH;
 
     private double avInterestEarned;
+    private double avTaxDeducted;
     private double avIncome;
     private double avExpense;
     private double avProfit;
@@ -16,6 +17,7 @@ enum Cycle {
 
     void calcAverages(
         double totalInterestEarned, 
+        double totalTaxDeducted,
         double totalIncome, 
         double totalExpense, 
         double totalProfit, 
@@ -27,6 +29,7 @@ enum Cycle {
         }
 
         this.avInterestEarned = totalInterestEarned/cycles;
+        this.avTaxDeducted = totalTaxDeducted/cycles;
         this.avIncome = totalIncome/cycles;
         this.avExpense = totalExpense/cycles;
         this.avProfit = totalProfit/cycles;
@@ -42,6 +45,7 @@ enum Cycle {
     public String toString() {
         final String SUMMARY = "Summary of averages per %s:\n" 
         + "Average interest earned - %.2f\n"
+        + "Average tax deducted - %.2f\n"
         + "Average income - %.2f\n"
         + "Average expense - %.2f\n"
         + "Average profit - %.2f\n"
@@ -54,6 +58,7 @@ enum Cycle {
 
         return String.format(SUMMARY, this.name().toLowerCase(), 
             avInterestEarned, 
+            avTaxDeducted,
             avIncome, 
             avExpense, 
             avProfit,

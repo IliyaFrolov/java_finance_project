@@ -7,8 +7,7 @@ class Account {
     private List<CashFlow> cashFlowList;
     private List<Double> profit = new ArrayList<>();
     private double totalInterestEarned = 0;
-    private double totalIncome = 0;
-    private double totalExpense = 0;
+    private double totalTaxDeducted = 0;
     private double totalProfit = 0;
     private int cycles = 1;
     private Cycle cycleType;
@@ -30,23 +29,22 @@ class Account {
     
     private void calcFinances(CashFlow cashFlow) {
         double prevBalance = balance.getPrevBalance();
-        double currIncome = cashFlow.getIncome();
-        double currExpense = cashFlow.getExpense();
         double currIntEarned = cashFlow.getInterestEarned(prevBalance);
+        double currTaxDeducted = cashFlow.getTaxDeducted(prevBalance);
         double currProfit = cashFlow.getProfit(prevBalance);
 
         profit.add(currProfit);
         totalInterestEarned += currIntEarned;
+        totalTaxDeducted += currTaxDeducted;
         totalProfit += currProfit;
-        totalIncome += currIncome;
-        totalExpense += currExpense;
         balance.updateBalance(currProfit);
 
         summaryLog.add(Arrays.asList(
             prevBalance, 
-            currIncome, 
-            currExpense, 
+            cashFlow.getIncome(), 
+            cashFlow.getExpense(), 
             currIntEarned, 
+            currTaxDeducted,
             currProfit, 
             balance.getNextBalance()
         ));
@@ -58,6 +56,7 @@ class Account {
         + "Income - %.2f\n"
         + "Expense - %.2f\n"
         + "Interest earned - %.2f\n"
+        + "Tax deducted - %.2f\n"
         + "Profit - %.2f\n"
         + "Balance - %.2f\n";
 
@@ -73,7 +72,8 @@ class Account {
                 summaryLog.get(i).get(2), 
                 summaryLog.get(i).get(3), 
                 summaryLog.get(i).get(4), 
-                summaryLog.get(i).get(5)
+                summaryLog.get(i).get(5),
+                summaryLog.get(i).get(6)
             ));
 
             if (categories != null) {
@@ -88,6 +88,7 @@ class Account {
         + "Total income - %.2f\n"
         + "Total expense - %.2f\n"
         + "Total interest earned - %.2f\n"
+        + "Total tax deducted - %.2f\n"
         + "Total profit - %.2f\n"
         + "Total balance - %.2f\n";
 
@@ -96,9 +97,10 @@ class Account {
             cycles, 
             cycleType.name().toLowerCase(), 
             balance.getInitBalance(), 
-            totalIncome, 
-            totalExpense, 
+            CashFlow.getTotalIncome(), 
+            CashFlow.getTotalExpense(), 
             totalInterestEarned, 
+            totalTaxDeducted,
             totalProfit, 
             balance.getNextBalance()
         ));
@@ -142,8 +144,8 @@ class Account {
                 monthCycles = cycles;
         }
 
-        Cycle.DAY.calcAverages(totalInterestEarned, totalIncome, totalExpense, totalProfit, dayCycles, ExpCategories.getTotalsList());
-        Cycle.WEEK.calcAverages(totalInterestEarned, totalIncome, totalExpense, totalProfit, weekCycles, ExpCategories.getTotalsList());
-        Cycle.MONTH.calcAverages(totalInterestEarned, totalIncome, totalExpense, totalProfit, monthCycles, ExpCategories.getTotalsList());
+        Cycle.DAY.calcAverages(totalInterestEarned, totalTaxDeducted, CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), totalProfit, dayCycles, ExpCategories.getTotalsList());
+        Cycle.WEEK.calcAverages(totalInterestEarned, totalTaxDeducted, CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), totalProfit, weekCycles, ExpCategories.getTotalsList());
+        Cycle.MONTH.calcAverages(totalInterestEarned, totalTaxDeducted, CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), totalProfit, monthCycles, ExpCategories.getTotalsList());
     }
 }
