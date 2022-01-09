@@ -10,21 +10,18 @@ public class Main {
     static double sum(Map<String, Double> cat) {
         return cat.values().stream().mapToDouble(Double::doubleValue).sum();
     }
-    public static void main(String[] args) throws Exception {
-        ExpCategories cat1 = new ExpCategories(90.00, 40.00, 70.00, 300.00, 100.00, 170.00);
-        ExpCategories cat2 = new ExpCategories(80.00, 60.00, 70.00, 300.00, 40.00, 400.00);
-        ExpCategories cat3 = new ExpCategories(50.00, 70.00, 70.00, 300.00, 0.00, 110.00);
-        
-        List<ExpCategories> categories = new ArrayList<>();
-        categories.add(cat1);
-        categories.add(cat2);
-        categories.add(cat3);
-    
-        double initialBalance = 2500;
-        List<Double> cInt = new ArrayList<>(Arrays.asList(0.02, 0.01, 0.14));
-        List<Double> cIncTax = new ArrayList<>(Arrays.asList(0.1, 0.1, 0.1));
-        List<Double> cInc = new ArrayList<>(Arrays.asList(500.00, 400.00, 300.00));
+    public static void main(String[] args) throws Exception {        
+        List<ExpCategories> categories = new ArrayList<>();/*
+        categories.add(new ExpCategories(55.92, 92.97, 17.00, 679.66, 75.96, 50.00));
+        categories.add(new ExpCategories(118.02, 388.51, 17.00, 891.66, 40.00, 100.00));
+        categories.add(new ExpCategories(64.56, 131.12, 17.00, 672.56, 105.51, 50.00));
+        */
+        double initialBalance = 3000.00;
+        List<Double> cInt = new ArrayList<>(Arrays.asList(0.00, 0.00, 0.00));
+        List<Double> cIncTax = new ArrayList<>(Arrays.asList(0.00, 0.00, 0.00));
+        List<Double> cInc = new ArrayList<>(Arrays.asList(1982.17, 2014.82, 1759.56));
         List<Double> cExp = new ArrayList<>(Arrays.asList(800.00, 500.00, 650.00));
+
         List<CashFlow> cashFlowList;
 
         if (categories.isEmpty()) {
@@ -37,6 +34,11 @@ public class Main {
         Account myAcc = Account.createAccount(initialBalance, 3, Cycle.MONTH, cashFlowList);
         myAcc.printCycleReport();
         myAcc.printFinalReport();
-        myAcc.printAverages(Cycle.WEEK);
+        myAcc.printAverages(Cycle.MONTH);
+
+        Account projectedAcc = Account.createAccount(myAcc.getBalance().getNextBalance(), 2, Cycle.MONTH, myAcc.getCashFlow());
+        projectedAcc.printCycleReport();
+        projectedAcc.printFinalReport();
+        projectedAcc.printAverages(Cycle.MONTH);
     }
 }

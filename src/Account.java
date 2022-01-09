@@ -26,6 +26,14 @@ class Account {
 
         return instance;
     }
+
+    Balance getBalance() {
+        return balance;
+    }
+
+    List<CashFlow> getCashFlow() {
+        return cashFlowList;
+    }
     
     private void calcFinances(CashFlow cashFlow) {
         double prevBalance = balance.getPrevBalance();
@@ -143,7 +151,7 @@ class Account {
                 weekCycles = cycles*(30.00/7.00);
                 monthCycles = cycles;
         }
-
+        
         Cycle.DAY.calcAverages(totalInterestEarned, totalTaxDeducted, CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), totalProfit, dayCycles, ExpCategories.getTotalsList());
         Cycle.WEEK.calcAverages(totalInterestEarned, totalTaxDeducted, CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), totalProfit, weekCycles, ExpCategories.getTotalsList());
         Cycle.MONTH.calcAverages(totalInterestEarned, totalTaxDeducted, CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), totalProfit, monthCycles, ExpCategories.getTotalsList());
