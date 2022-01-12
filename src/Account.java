@@ -9,19 +9,19 @@ class Account {
     private double totalInterestEarned = 0;
     private double totalTaxDeducted = 0;
     private double totalProfit = 0;
-    private int cycles = 1;
+    private int cycles;
     private Cycle cycleType;
     private List<Map<String, Double>> summaryLog = new ArrayList<>();
 
-    private Account(Balance balance, int cycles, Cycle cycleType, List<CashFlow> cashFlowList)  {
+    private Account(Balance balance, Cycle cycleType, List<CashFlow> cashFlowList)  {
         this.balance = balance;
-        this.cycles = cycles;
         this.cycleType = cycleType;
         this.cashFlowList = cashFlowList;
     }
 
-    static Account createAccount(double initBalance, int cycles, Cycle cycleType, List<CashFlow> cashFlowList) {
-        var instance = new Account(new Balance(initBalance), cycles, cycleType, cashFlowList);
+    static Account createAccount(double initBalance, Cycle cycleType, List<CashFlow> cashFlowList) {
+        var instance = new Account(new Balance(initBalance), cycleType, cashFlowList);
+        instance.cycles = cashFlowList.size();
         instance.run();
 
         return instance;

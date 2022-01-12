@@ -1,7 +1,6 @@
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -82,14 +81,17 @@ public class Main {
         categories.add(new ExpCategories(64.56, 131.12, 17.00, 672.56, 105.51, 50.00));
         
         double initialBalance = 3000.00;
-        int cycles = 3;
         List<Double> cInt = new ArrayList<>(Arrays.asList(0.01, 0.02, 0.015));
         List<Double> cIncTax = new ArrayList<>(Arrays.asList(0.03, 0.02, 0.015));
         List<Double> cInc = new ArrayList<>(Arrays.asList(1982.17, 2014.82, 1759.56));
         List<Double> cExp = new ArrayList<>(Arrays.asList(800.00, 500.00, 650.00));
 
-        List<CashFlow> cashFlowList;
+        if (cInt.size() != cIncTax.size() || cInt.size() != cInc.size() || cInt.size() != cExp.size() || cInt.size() != categories.size()) {
+            throw new InputLengthException();
+        }
 
+        List<CashFlow> cashFlowList;
+        
         if (categories.isEmpty()) {
             cashFlowList = IntStream.range(0, cInt.size()).mapToObj(i -> new CashFlow(cInc.get(i), cExp.get(i), cInt.get(i), cIncTax.get(i))).collect(Collectors.toList());
         }
@@ -97,7 +99,7 @@ public class Main {
             cashFlowList = IntStream.range(0, cInt.size()).mapToObj(i -> new CashFlow(cInc.get(i), categories.get(i), cInt.get(i), cIncTax.get(i))).collect(Collectors.toList());
         }
 
-        Account myAcc = Account.createAccount(initialBalance, cycles, Cycle.MONTH, cashFlowList);
+        Account myAcc = Account.createAccount(initialBalance, Cycle.MONTH, cashFlowList);
         printCycleReport(myAcc);
         printFinalReport(myAcc);
         printAverages(Cycle.MONTH);
@@ -111,7 +113,7 @@ public class Main {
             projectedCashList.add(projectedCashFLow);
         }
 
-        Account projectedAcc = Account.createAccount(myAcc.getBalance().getNextBalance(), afterCycles, cycleType, projectedCashList);
+        Account projectedAcc = Account.createAccount(myAcc.getBalance().getNextBalance(), cycleType, projectedCashList);
         //printCycleReport(projectedAcc);
         //printFinalReport(projectedAcc);
     }
