@@ -55,6 +55,8 @@ class Account {
             Map.entry("Previous balance", prevBalance),
             Map.entry("Income", cashFlow.getIncome()), 
             Map.entry("Expense", cashFlow.getExpense()), 
+            Map.entry("Interest", cashFlow.getInterest()),
+            Map.entry("Income tax", cashFlow.getIncomeTax()),
             Map.entry("Interest earned", cashFlow.getInterestEarned(prevBalance)), 
             Map.entry("Tax deducted", cashFlow.getTaxDeducted(prevBalance)),
             Map.entry("Profit", cashFlow.getProfit(prevBalance)), 
@@ -92,8 +94,8 @@ class Account {
                 monthCycles = cycles;
         }
         
-        Cycle.DAY.calcAverages(CashFlow.getTotalInterestEarned(), CashFlow.getTotalTaxDeducted(), CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), CashFlow.getTotalProfit(), dayCycles, ExpCategories.getTotalsList());
-        Cycle.WEEK.calcAverages(CashFlow.getTotalInterestEarned(), CashFlow.getTotalTaxDeducted(), CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), CashFlow.getTotalProfit(), weekCycles, ExpCategories.getTotalsList());
-        Cycle.MONTH.calcAverages(CashFlow.getTotalInterestEarned(), CashFlow.getTotalTaxDeducted(), CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), CashFlow.getTotalProfit(), monthCycles, ExpCategories.getTotalsList());
+        Cycle.DAY.calcAverages(CashFlow.getTotalInterest(), CashFlow.getTotalInterestEarned(), CashFlow.getTotalIncomeTax(), CashFlow.getTotalTaxDeducted(), CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), CashFlow.getTotalProfit(), dayCycles, ExpCategories.getTotalsList());
+        Cycle.WEEK.calcAverages(CashFlow.getTotalInterest(), CashFlow.getTotalInterestEarned(), CashFlow.getTotalIncomeTax(), CashFlow.getTotalTaxDeducted(), CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), CashFlow.getTotalProfit(), weekCycles, ExpCategories.getTotalsList());
+        Cycle.MONTH.calcAverages(CashFlow.getTotalInterest(), CashFlow.getTotalInterestEarned(), CashFlow.getTotalIncomeTax(), CashFlow.getTotalTaxDeducted(), CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), CashFlow.getTotalProfit(), monthCycles, ExpCategories.getTotalsList());
     }
 }

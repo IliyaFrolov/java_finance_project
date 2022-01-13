@@ -3,7 +3,9 @@ import java.util.List;
 enum Cycle {
     DAY, WEEK, MONTH;
 
+    private double avInterest;
     private double avInterestEarned;
+    private double avIncomeTax;
     private double avTaxDeducted;
     private double avIncome;
     private double avExpense;
@@ -16,7 +18,9 @@ enum Cycle {
     private double avOther;
 
     void calcAverages(
+            double totalInterest,
             double totalInterestEarned,
+            double totalIncomeTax,
             double totalTaxDeducted,
             double totalIncome,
             double totalExpense,
@@ -27,7 +31,9 @@ enum Cycle {
             return;
         }
 
+        this.avInterest = totalInterest / cycles;
         this.avInterestEarned = totalInterestEarned / cycles;
+        this.avIncomeTax = totalIncomeTax / cycles;
         this.avTaxDeducted = totalTaxDeducted / cycles;
         this.avIncome = totalIncome / cycles;
         this.avExpense = totalExpense / cycles;
@@ -40,8 +46,16 @@ enum Cycle {
         this.avOther = categoriesTotal.get(5) / cycles;
     }
 
+    double getAvInterest() {
+        return avInterest;
+    }
+
     double getAvInterestEarned() {
         return avInterestEarned;
+    }
+
+    double getAvIncomeTax() {
+        return avIncomeTax;
     }
 
     double getAvTaxDeducted() {

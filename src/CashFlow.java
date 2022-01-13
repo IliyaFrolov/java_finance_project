@@ -5,7 +5,9 @@ class CashFlow {
     private double incomeTax;
     private static double totalIncome = 0;
     private static double totalExpense = 0;
+    private static double totalInterest = 0;
     private static double totalInterestEarned = 0;
+    private static double totalIncomeTax = 0;
     private static double totalTaxDeducted = 0;
     private static double totalProfit = 0;
     private ExpCategories categories;
@@ -17,6 +19,8 @@ class CashFlow {
         this.incomeTax = incomeTax;
         CashFlow.totalIncome += income;
         CashFlow.totalExpense += expense;
+        CashFlow.totalInterest += interest;
+        CashFlow.totalIncomeTax += incomeTax;
     }
 
     CashFlow(double income, ExpCategories categories, double interest, double incomeTax) {
@@ -40,8 +44,16 @@ class CashFlow {
         return incomeTax;
     }
 
+    static double getTotalInterest() {
+        return CashFlow.totalInterest;
+    }
+
     double getInterestEarned(double prevBalance) {
         return interest * prevBalance;
+    }
+
+    static double getTotalIncomeTax() {
+        return CashFlow.totalIncomeTax;
     }
 
     double getTaxDeducted(double prevBalance) {
