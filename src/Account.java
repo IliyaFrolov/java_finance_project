@@ -5,10 +5,6 @@ import java.util.Map;
 class Account {
     private Balance balance;
     private List<CashFlow> cashFlowList;
-    private List<Double> profit = new ArrayList<>();
-    private double totalInterestEarned = 0;
-    private double totalTaxDeducted = 0;
-    private double totalProfit = 0;
     private int cycles;
     private Cycle cycleType;
     private List<Map<String, Double>> summaryLog = new ArrayList<>();
@@ -35,22 +31,6 @@ class Account {
         return cashFlowList;
     }
 
-    List<Double> getProfit() {
-        return profit;
-    }
-
-    double getTotalInterestEarned() {
-        return totalInterestEarned;
-    }
-
-    double getTotalTaxDeducted() {
-        return totalTaxDeducted;
-    }
-
-    double getTotalProfit() {
-        return totalProfit;
-    }
-
     int getCycles() {
         return cycles;
     }
@@ -65,23 +45,19 @@ class Account {
     
     private void calcFinances(CashFlow cashFlow) {
         double prevBalance = balance.getPrevBalance();
-        double currIntEarned = cashFlow.getInterestEarned(prevBalance);
-        double currTaxDeducted = cashFlow.getTaxDeducted(prevBalance);
-        double currProfit = cashFlow.getProfit(prevBalance);
 
-        profit.add(currProfit);
-        totalInterestEarned += currIntEarned;
-        totalTaxDeducted += currTaxDeducted;
-        totalProfit += currProfit;
-        balance.updateBalance(currProfit);
+        cashFlow.updateInterestEarned(prevBalance);
+        cashFlow.updateTaxDeducted(prevBalance);
+        cashFlow.upadateProfit(prevBalance);
+        balance.updateBalance(cashFlow.getProfit(prevBalance));
 
         summaryLog.add(Map.ofEntries(
             Map.entry("Previous balance", prevBalance),
             Map.entry("Income", cashFlow.getIncome()), 
             Map.entry("Expense", cashFlow.getExpense()), 
-            Map.entry("Interest earned", currIntEarned), 
-            Map.entry("Tax deducted", currTaxDeducted),
-            Map.entry("Profit", currProfit), 
+            Map.entry("Interest earned", cashFlow.getInterestEarned(prevBalance)), 
+            Map.entry("Tax deducted", cashFlow.getTaxDeducted(prevBalance)),
+            Map.entry("Profit", cashFlow.getProfit(prevBalance)), 
             Map.entry("Balance", balance.getNextBalance()
         )));
     }
@@ -116,8 +92,8 @@ class Account {
                 monthCycles = cycles;
         }
         
-        Cycle.DAY.calcAverages(totalInterestEarned, totalTaxDeducted, CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), totalProfit, dayCycles, ExpCategories.getTotalsList());
-        Cycle.WEEK.calcAverages(totalInterestEarned, totalTaxDeducted, CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), totalProfit, weekCycles, ExpCategories.getTotalsList());
-        Cycle.MONTH.calcAverages(totalInterestEarned, totalTaxDeducted, CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), totalProfit, monthCycles, ExpCategories.getTotalsList());
+        Cycle.DAY.calcAverages(CashFlow.getTotalInterestEarned(), CashFlow.getTotalTaxDeducted(), CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), CashFlow.getTotalProfit(), dayCycles, ExpCategories.getTotalsList());
+        Cycle.WEEK.calcAverages(CashFlow.getTotalInterestEarned(), CashFlow.getTotalTaxDeducted(), CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), CashFlow.getTotalProfit(), weekCycles, ExpCategories.getTotalsList());
+        Cycle.MONTH.calcAverages(CashFlow.getTotalInterestEarned(), CashFlow.getTotalTaxDeducted(), CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), CashFlow.getTotalProfit(), monthCycles, ExpCategories.getTotalsList());
     }
 }

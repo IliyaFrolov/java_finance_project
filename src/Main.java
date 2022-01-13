@@ -56,9 +56,9 @@ public class Main {
             account.getBalance().getInitBalance(), 
             CashFlow.getTotalIncome(), 
             CashFlow.getTotalExpense(), 
-            account.getTotalInterestEarned(), 
-            account.getTotalTaxDeducted(),
-            account.getTotalProfit(), 
+            CashFlow.getTotalInterestEarned(), 
+            CashFlow.getTotalTaxDeducted(),
+            CashFlow.getTotalProfit(), 
             account.getBalance().getNextBalance()
         ));
         
@@ -104,17 +104,16 @@ public class Main {
         printFinalReport(myAcc);
         printAverages(Cycle.MONTH);
 
-        int afterCycles = 2;
         Cycle cycleType = Cycle.MONTH;
         List<CashFlow> projectedCashList = new ArrayList<>();
         CashFlow projectedCashFLow = new CashFlow(cycleType.getAvIncome(), cycleType.getAvExpense(), 0.00, 0.00);
 
-        for (int j = 0; j < afterCycles; j++) {
+        for (int j = 0; j < cashFlowList.size(); j++) {
             projectedCashList.add(projectedCashFLow);
         }
 
         Account projectedAcc = Account.createAccount(myAcc.getBalance().getNextBalance(), cycleType, projectedCashList);
-        //printCycleReport(projectedAcc);
-        //printFinalReport(projectedAcc);
+        printCycleReport(projectedAcc);
+        printFinalReport(projectedAcc);
     }
 }

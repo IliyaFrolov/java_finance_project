@@ -5,6 +5,9 @@ class CashFlow {
     private double incomeTax;
     private static double totalIncome = 0;
     private static double totalExpense = 0;
+    private static double totalInterestEarned = 0;
+    private static double totalTaxDeducted = 0;
+    private static double totalProfit = 0;
     private ExpCategories categories;
 
     CashFlow(double income, double expense, double interest, double incomeTax) {
@@ -45,8 +48,20 @@ class CashFlow {
         return incomeTax * prevBalance;
     }
 
+    static double getTotalTaxDeducted() {
+        return CashFlow.totalTaxDeducted;
+    }
+
+    void updateTaxDeducted(double prevBalance) {
+        CashFlow.totalTaxDeducted += getTaxDeducted(prevBalance);
+    }
+
     double getProfit(double prevBalance) {
         return income + getInterestEarned(prevBalance) - getTaxDeducted(prevBalance) - expense;
+    }
+
+    void upadateProfit(double prevBalance) {
+        CashFlow.totalProfit += income + getInterestEarned(prevBalance) - getTaxDeducted(prevBalance) - expense;
     }
 
     static double getTotalIncome() {
@@ -57,7 +72,19 @@ class CashFlow {
         return CashFlow.totalExpense; 
     }
 
+    static double getTotalInterestEarned() {
+        return CashFlow.totalInterestEarned;
+    }
+
+    static double getTotalProfit() {
+        return CashFlow.totalProfit;
+    }
+
     ExpCategories getCategories() {
         return categories;
+    }
+
+    void updateInterestEarned(double prevBalance) {
+        CashFlow.totalInterestEarned += prevBalance * interest;
     }
 }
