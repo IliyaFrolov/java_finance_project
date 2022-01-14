@@ -8,7 +8,7 @@ class Account {
     private int cycles;
     private Cycle cycleType;
     private List<Map<String, Double>> summaryLog = new ArrayList<>();
-
+    
     private Account(Balance balance, Cycle cycleType, List<CashFlow> cashFlowList)  {
         this.balance = balance;
         this.cycleType = cycleType;
@@ -94,8 +94,8 @@ class Account {
                 monthCycles = cycles;
         }
         
-        Cycle.DAY.calcAverages(CashFlow.getTotalInterest(), CashFlow.getTotalInterestEarned(), CashFlow.getTotalIncomeTax(), CashFlow.getTotalTaxDeducted(), CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), CashFlow.getTotalProfit(), dayCycles, ExpCategories.getTotalsList());
-        Cycle.WEEK.calcAverages(CashFlow.getTotalInterest(), CashFlow.getTotalInterestEarned(), CashFlow.getTotalIncomeTax(), CashFlow.getTotalTaxDeducted(), CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), CashFlow.getTotalProfit(), weekCycles, ExpCategories.getTotalsList());
-        Cycle.MONTH.calcAverages(CashFlow.getTotalInterest(), CashFlow.getTotalInterestEarned(), CashFlow.getTotalIncomeTax(), CashFlow.getTotalTaxDeducted(), CashFlow.getTotalIncome(), CashFlow.getTotalExpense(), CashFlow.getTotalProfit(), monthCycles, ExpCategories.getTotalsList());
+        Cycle.DAY.calcAverages(CashFlow.getTotals(), dayCycles, ExpCategories.getTotalsList());
+        Cycle.WEEK.calcAverages(CashFlow.getTotals(), weekCycles, ExpCategories.getTotalsList());
+        Cycle.MONTH.calcAverages(CashFlow.getTotals(), monthCycles, ExpCategories.getTotalsList());
     }
 }

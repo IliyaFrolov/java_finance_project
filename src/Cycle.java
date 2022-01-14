@@ -1,15 +1,12 @@
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 enum Cycle {
     DAY, WEEK, MONTH;
 
-    private double avInterest;
-    private double avInterestEarned;
-    private double avIncomeTax;
-    private double avTaxDeducted;
-    private double avIncome;
-    private double avExpense;
-    private double avProfit;
+    private Map<String, Double> averages = new HashMap<>();
     private double avGroceries;
     private double avEatingOut;
     private double avMemberships;
@@ -17,27 +14,12 @@ enum Cycle {
     private double avTravelling;
     private double avOther;
 
-    void calcAverages(
-            double totalInterest,
-            double totalInterestEarned,
-            double totalIncomeTax,
-            double totalTaxDeducted,
-            double totalIncome,
-            double totalExpense,
-            double totalProfit,
-            double cycles,
-            List<Double> categoriesTotal) {
+    void calcAverages(Map<String, Double> totals, double cycles, List<Double> categoriesTotal) {
         if (cycles == 0) {
             return;
         }
-
-        this.avInterest = totalInterest / cycles;
-        this.avInterestEarned = totalInterestEarned / cycles;
-        this.avIncomeTax = totalIncomeTax / cycles;
-        this.avTaxDeducted = totalTaxDeducted / cycles;
-        this.avIncome = totalIncome / cycles;
-        this.avExpense = totalExpense / cycles;
-        this.avProfit = totalProfit / cycles;
+        
+        averages = totals.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue()/cycles));
         this.avGroceries = categoriesTotal.get(0) / cycles;
         this.avEatingOut = categoriesTotal.get(1) / cycles;
         this.avMemberships = categoriesTotal.get(2) / cycles;
@@ -47,31 +29,31 @@ enum Cycle {
     }
 
     double getAvInterest() {
-        return avInterest;
+        return averages.get("Total interest");
     }
 
     double getAvInterestEarned() {
-        return avInterestEarned;
+        return averages.get("Total interest earned");
     }
 
     double getAvIncomeTax() {
-        return avIncomeTax;
+        return averages.get("Total income tax");
     }
 
     double getAvTaxDeducted() {
-        return avTaxDeducted;
+        return averages.get("Total tax deducted");
     }
 
     double getAvIncome() {
-        return avIncome;
+        return averages.get("Total income");
     }
 
     double getAvExpense() {
-        return avExpense;
+        return averages.get("Total expense");
     }
 
     double getAvProfit() {
-        return avProfit;
+        return averages.get("Total profit");
     }
 
     double getAvGroceries() {
@@ -114,11 +96,11 @@ enum Cycle {
                 + "Average Other - %.2f\n";
 
         return String.format(SUMMARY, this.name().toLowerCase(),
-                avInterestEarned,
-                avTaxDeducted,
-                avIncome,
-                avExpense,
-                avProfit,
+                averages.get("Total interest earned"),
+                averages.get("Total tax deducted"),
+                averages.get("Total income"),
+                averages.get("Total expense"),
+                averages.get("Total profit"),
                 avGroceries,
                 avEatingOut,
                 avMemberships,

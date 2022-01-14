@@ -49,16 +49,17 @@ public class Main {
         + "Total profit - %.2f\n"
         + "Total balance - %.2f\n";
 
+        var totals = CashFlow.getTotals();
         System.out.println(String.format(
             SUMMARY, 
             account.getCycles(), 
             account.getCycleType().name().toLowerCase(), 
             account.getBalance().getInitBalance(), 
-            CashFlow.getTotalIncome(), 
-            CashFlow.getTotalExpense(), 
-            CashFlow.getTotalInterestEarned(), 
-            CashFlow.getTotalTaxDeducted(),
-            CashFlow.getTotalProfit(), 
+            totals.get("Total income"), 
+            totals.get("Total expense"), 
+            totals.get("Total interest earned"), 
+            totals.get("Total tax deducted"),
+            totals.get("Total profit"), 
             account.getBalance().getNextBalance()
         ));
         

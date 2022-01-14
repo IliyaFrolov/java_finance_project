@@ -1,15 +1,20 @@
+import java.util.HashMap;
+import java.util.Map;
+
 class CashFlow {
     private double income;
     private double expense;
     private double interest;
     private double incomeTax;
-    private static double totalIncome = 0;
-    private static double totalExpense = 0;
-    private static double totalInterest = 0;
-    private static double totalInterestEarned = 0;
-    private static double totalIncomeTax = 0;
-    private static double totalTaxDeducted = 0;
-    private static double totalProfit = 0;
+    private static Map<String, Double> totals = new HashMap<>() {{
+        put("Total income", 0.00);
+        put("Total expense", 0.00);
+        put("Total interest", 0.00);
+        put("Total interest earned", 0.00);
+        put("Total income tax", 0.00);
+        put("Total tax deducted", 0.00);
+        put("Total profit", 0.00);
+    }};
     private ExpCategories categories;
 
     CashFlow(double income, double expense, double interest, double incomeTax) {
@@ -17,10 +22,10 @@ class CashFlow {
         this.expense = expense;
         this.interest = interest;
         this.incomeTax = incomeTax;
-        CashFlow.totalIncome += income;
-        CashFlow.totalExpense += expense;
-        CashFlow.totalInterest += interest;
-        CashFlow.totalIncomeTax += incomeTax;
+        CashFlow.totals.merge("Total income", income, Double::sum);
+        CashFlow.totals.merge("Total expense", expense, Double::sum);
+        CashFlow.totals.merge("Total interest", interest, Double::sum);
+        CashFlow.totals.merge("Total income tax", incomeTax, Double::sum);
     }
 
     CashFlow(double income, ExpCategories categories, double interest, double incomeTax) {
@@ -44,28 +49,16 @@ class CashFlow {
         return incomeTax;
     }
 
-    static double getTotalInterest() {
-        return CashFlow.totalInterest;
-    }
-
     double getInterestEarned(double prevBalance) {
         return interest * prevBalance;
-    }
-
-    static double getTotalIncomeTax() {
-        return CashFlow.totalIncomeTax;
     }
 
     double getTaxDeducted(double prevBalance) {
         return incomeTax * prevBalance;
     }
 
-    static double getTotalTaxDeducted() {
-        return CashFlow.totalTaxDeducted;
-    }
-
     void updateTaxDeducted(double prevBalance) {
-        CashFlow.totalTaxDeducted += getTaxDeducted(prevBalance);
+        CashFlow.totals.merge("Total tax deducted", getTaxDeducted(prevBalance), Double::sum);
     }
 
     double getProfit(double prevBalance) {
@@ -73,23 +66,8 @@ class CashFlow {
     }
 
     void upadateProfit(double prevBalance) {
-        CashFlow.totalProfit += income + getInterestEarned(prevBalance) - getTaxDeducted(prevBalance) - expense;
-    }
-
-    static double getTotalIncome() {
-        return CashFlow.totalIncome; 
-    }
-
-    static double getTotalExpense() {
-        return CashFlow.totalExpense; 
-    }
-
-    static double getTotalInterestEarned() {
-        return CashFlow.totalInterestEarned;
-    }
-
-    static double getTotalProfit() {
-        return CashFlow.totalProfit;
+        double profit = income + getInterestEarned(prevBalance) - getTaxDeducted(prevBalance) - expense;
+        CashFlow.totals.merge("Total profit", profit, Double::sum);
     }
 
     ExpCategories getCategories() {
@@ -97,6 +75,10 @@ class CashFlow {
     }
 
     void updateInterestEarned(double prevBalance) {
-        CashFlow.totalInterestEarned += prevBalance * interest;
+        CashFlow.totals.merge("Total interest earned", prevBalance * interest, Double::sum);
+    }
+
+    static Map<String, Double> getTotals() {
+        return CashFlow.totals;
     }
 }
