@@ -5,12 +5,13 @@ class ExpCategories {
     private Map<String, Double> catFlow = new HashMap<>();
     private static Map<String, Double> catTotals = new HashMap<>();
 
-    public ExpCategories(double groceries, double eatingOut, double memberships, double bills, double travelling, double other) {
+    public ExpCategories(double groceries, double eatingOut, double memberships, double bills, double travelling, double shopping, double other) {
         catFlow.put("Groceries", groceries);
         catFlow.put("Eating out", eatingOut);
         catFlow.put("Memberships", memberships);
         catFlow.put("Bills", bills);
         catFlow.put("Travelling",  travelling);
+        catFlow.put("Shopping", shopping);
         catFlow.put("Other", other);
         catFlow.entrySet().stream().forEach(entry -> ExpCategories.catTotals.merge(entry.getKey(), entry.getValue(), Double::sum));
     }
@@ -24,6 +25,7 @@ class ExpCategories {
         + "Memberships - %.2f\n"
         + "Bills - %.2f\n"
         + "Travelling - %.2f\n"
+        + "Shopping - %.2f\n"
         + "Other - %.2f\n";
 
         return String.format(breakdown, 
@@ -32,6 +34,7 @@ class ExpCategories {
             catFlow.get("Memberships"),
             catFlow.get("Bills"),
             catFlow.get("Travelling"),
+            catFlow.get("Shopping"),
             catFlow.get("Other")
         );
     }
@@ -52,6 +55,7 @@ class ExpCategories {
         + "Total Memberships - %.2f\n"
         + "Total Bills - %.2f\n"
         + "Total Travelling - %.2f\n"
+        + "Total Shopping - %.2f\n"
         + "Total Other - %.2f\n";
 
         return String.format(breakdown, 
@@ -60,6 +64,7 @@ class ExpCategories {
             catTotals.get("Memberships"),
             catTotals.get("Bills"),
             catTotals.get("Travelling"),
+            catTotals.get("Shopping"),
             catTotals.get("Other")
         );
     }

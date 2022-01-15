@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-class Account {
+class Account { 
     private Balance balance;
     private List<CashFlow> cashFlowList;
     private int cycles;

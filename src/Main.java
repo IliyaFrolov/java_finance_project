@@ -77,11 +77,11 @@ public class Main {
     }
     public static void main(String[] args) throws Exception {        
         List<ExpCategories> categories = new ArrayList<>();
-        categories.add(new ExpCategories(55.92, 92.97, 17.00, 679.66, 75.96, 50.00));
-        categories.add(new ExpCategories(118.02, 388.51, 17.00, 891.66, 40.00, 100.00));
-        categories.add(new ExpCategories(64.56, 131.12, 17.00, 672.56, 105.51, 50.00));
+        categories.add(new ExpCategories(55.92, 92.97, 17.00, 679.66, 75.96, 5.00, 50.00));
+        categories.add(new ExpCategories(118.02, 388.51, 17.00, 891.66, 40.00, 7.00, 100.00));
+        categories.add(new ExpCategories(64.56, 131.12, 17.00, 672.56, 105.51, 12.50, 50.00));
         
-        double initialBalance = 3000.00;
+        double initialBalance = 2100;
         List<Double> cInt = new ArrayList<>(Arrays.asList(0.01, 0.02, 0.015));
         List<Double> cIncTax = new ArrayList<>(Arrays.asList(0.03, 0.02, 0.015));
         List<Double> cInc = new ArrayList<>(Arrays.asList(1982.17, 2014.82, 1759.56));

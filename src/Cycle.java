@@ -38,6 +38,7 @@ enum Cycle {
                 + "Average memberships - %.2f\n"
                 + "Average bills - %.2f\n"
                 + "Average travelling - %.2f\n"
+                + "Average Shopping - %.2f\n"
                 + "Average Other - %.2f\n";
 
         return String.format(SUMMARY, this.name().toLowerCase(),
@@ -51,6 +52,7 @@ enum Cycle {
                 catAverages.get("Memberships"),
                 catAverages.get("Bills"),
                 catAverages.get("Travelling"),
+                catAverages.get("Shopping"),
                 catAverages.get("Other")
                 );
     }
