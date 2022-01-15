@@ -3,15 +3,7 @@ import java.util.Map;
 
 class CashFlow {
     private Map<String, Double> flow = new HashMap<>();
-    private static Map<String, Double> totals = new HashMap<>() {{
-        put("Total income", 0.00);
-        put("Total expense", 0.00);
-        put("Total interest", 0.00);
-        put("Total interest earned", 0.00);
-        put("Total income tax", 0.00);
-        put("Total tax deducted", 0.00);
-        put("Total profit", 0.00);
-    }};
+    private static Map<String, Double> totals = new HashMap<>(); 
     private ExpCategories categories;
 
     CashFlow(double income, double expense, double interest, double incomeTax) {
@@ -19,10 +11,7 @@ class CashFlow {
         flow.put("Expense", expense);
         flow.put("Interest", interest);
         flow.put("Income tax", incomeTax);
-        CashFlow.totals.merge("Total income", income, Double::sum);
-        CashFlow.totals.merge("Total expense", expense, Double::sum);
-        CashFlow.totals.merge("Total interest", interest, Double::sum);
-        CashFlow.totals.merge("Total income tax", incomeTax, Double::sum);
+        flow.entrySet().stream().forEach(entry -> CashFlow.totals.merge(entry.getKey(), entry.getValue(), Double::sum));
     }
 
     CashFlow(double income, ExpCategories categories, double interest, double incomeTax) {
@@ -43,16 +32,16 @@ class CashFlow {
     }
 
     void updateInterestEarned(double prevBalance) {
-        CashFlow.totals.merge("Total interest earned", prevBalance * flow.get("Interest"), Double::sum);
+        CashFlow.totals.merge("Interest earned", prevBalance * flow.get("Interest"), Double::sum);
     }
 
     void updateTaxDeducted(double prevBalance) {
-        CashFlow.totals.merge("Total tax deducted", getTaxDeducted(prevBalance), Double::sum);
+        CashFlow.totals.merge("Tax deducted", getTaxDeducted(prevBalance), Double::sum);
     }
 
     void upadateProfit(double prevBalance) {
         double profit = flow.get("Income") + getInterestEarned(prevBalance) - getTaxDeducted(prevBalance) - flow.get("Expense");
-        CashFlow.totals.merge("Total profit", profit, Double::sum);
+        CashFlow.totals.merge("Profit", profit, Double::sum);
     }
 
     ExpCategories getCategories() {

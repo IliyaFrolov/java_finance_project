@@ -41,17 +41,17 @@ enum Cycle {
                 + "Average Other - %.2f\n";
 
         return String.format(SUMMARY, this.name().toLowerCase(),
-                averages.get("Total interest earned"),
-                averages.get("Total tax deducted"),
-                averages.get("Total income"),
-                averages.get("Total expense"),
-                averages.get("Total profit"),
-                catAverages.get("Total groceries"),
-                catAverages.get("Total eating out"),
-                catAverages.get("Total memberships"),
-                catAverages.get("Total bills"),
-                catAverages.get("Total travelling"),
-                catAverages.get("Total other")
+                averages.get("Interest earned"),
+                averages.get("Tax deducted"),
+                averages.get("Income"),
+                averages.get("Expense"),
+                averages.get("Profit"),
+                catAverages.get("Groceries"),
+                catAverages.get("Eating out"),
+                catAverages.get("Memberships"),
+                catAverages.get("Bills"),
+                catAverages.get("Travelling"),
+                catAverages.get("Other")
                 );
     }
 }

@@ -3,14 +3,7 @@ import java.util.Map;
 
 class ExpCategories {
     private Map<String, Double> catFlow = new HashMap<>();
-    private static Map<String, Double> catTotals = new HashMap<>() {{
-        put("Total groceries", 0.00);
-        put("Total eating out", 0.00);
-        put("Total memberships", 0.00);
-        put("Total bills", 0.00);
-        put("Total travelling", 0.00);
-        put("Total other", 0.00);
-    }};
+    private static Map<String, Double> catTotals = new HashMap<>();
 
     public ExpCategories(double groceries, double eatingOut, double memberships, double bills, double travelling, double other) {
         catFlow.put("Groceries", groceries);
@@ -19,12 +12,7 @@ class ExpCategories {
         catFlow.put("Bills", bills);
         catFlow.put("Travelling",  travelling);
         catFlow.put("Other", other);
-        ExpCategories.catTotals.merge("Total groceries", groceries, Double::sum);
-        ExpCategories.catTotals.merge("Total eating out", eatingOut, Double::sum);  
-        ExpCategories.catTotals.merge("Total memberships", memberships, Double::sum); 
-        ExpCategories.catTotals.merge("Total bills", bills, Double::sum);
-        ExpCategories.catTotals.merge("Total travelling", travelling, Double::sum); 
-        ExpCategories.catTotals.merge("Total other", other, Double::sum);
+        catFlow.entrySet().stream().forEach(entry -> ExpCategories.catTotals.merge(entry.getKey(), entry.getValue(), Double::sum));
     }
 
     @Override
@@ -67,12 +55,12 @@ class ExpCategories {
         + "Total Other - %.2f\n";
 
         return String.format(breakdown, 
-            catTotals.get("Total groceries"),
-            catTotals.get("Total eating out"),
-            catTotals.get("Total memberships"),
-            catTotals.get("Total bills"),
-            catTotals.get("Total travelling"),
-            catTotals.get("Total other")
+            catTotals.get("Groceries"),
+            catTotals.get("Eating out"),
+            catTotals.get("Memberships"),
+            catTotals.get("Bills"),
+            catTotals.get("Travelling"),
+            catTotals.get("Other")
         );
     }
 

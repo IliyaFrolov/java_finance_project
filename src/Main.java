@@ -55,11 +55,11 @@ public class Main {
             account.getCycles(), 
             account.getCycleType().name().toLowerCase(), 
             account.getBalance().getInitBalance(), 
-            totals.get("Total income"), 
-            totals.get("Total expense"), 
-            totals.get("Total interest earned"), 
-            totals.get("Total tax deducted"),
-            totals.get("Total profit"), 
+            totals.get("Income"), 
+            totals.get("Expense"), 
+            totals.get("Interest earned"), 
+            totals.get("Tax deducted"),
+            totals.get("Profit"), 
             account.getBalance().getNextBalance()
         ));
         
@@ -88,7 +88,8 @@ public class Main {
         List<Double> cExp = new ArrayList<>(Arrays.asList(800.00, 500.00, 650.00));
 
         if (cInt.size() != cIncTax.size() || cInt.size() != cInc.size() || cInt.size() != cExp.size() || cInt.size() != categories.size()) {
-            throw new InputLengthException();
+            if (!categories.isEmpty())
+                throw new InputLengthException();
         }
 
         List<CashFlow> cashFlowList;
@@ -105,9 +106,9 @@ public class Main {
         printFinalReport(myAcc);
         printAverages(Cycle.MONTH);
 
-        Cycle cycleType = Cycle.DAY;
+        Cycle cycleType = Cycle.MONTH;
         List<CashFlow> projectedCashList = new ArrayList<>();
-        CashFlow projectedCashFLow = new CashFlow(cycleType.getAverages().get("Total income"), cycleType.getAverages().get("Total expense"), cycleType.getAverages().get("Total interest"), cycleType.getAverages().get("Total income tax"));
+        CashFlow projectedCashFLow = new CashFlow(cycleType.getAverages().get("Income"), cycleType.getAverages().get("Expense"), cycleType.getAverages().get("Interest"), cycleType.getAverages().get("Income tax"));
 
         for (int j = 0; j < cashFlowList.size(); j++) {
             projectedCashList.add(projectedCashFLow);
