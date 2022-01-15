@@ -45,6 +45,7 @@ class Account {
     
     private void calcFinances(CashFlow cashFlow) {
         double prevBalance = balance.getPrevBalance();
+        Map<String, Double> flow = cashFlow.getFlow();
 
         cashFlow.updateInterestEarned(prevBalance);
         cashFlow.updateTaxDeducted(prevBalance);
@@ -53,10 +54,10 @@ class Account {
 
         summaryLog.add(Map.ofEntries(
             Map.entry("Previous balance", prevBalance),
-            Map.entry("Income", cashFlow.getIncome()), 
-            Map.entry("Expense", cashFlow.getExpense()), 
-            Map.entry("Interest", cashFlow.getInterest()),
-            Map.entry("Income tax", cashFlow.getIncomeTax()),
+            Map.entry("Income", flow.get("Income")), 
+            Map.entry("Expense", flow.get("Expense")), 
+            Map.entry("Interest", flow.get("Interest")),
+            Map.entry("Income tax", flow.get("Income tax")),
             Map.entry("Interest earned", cashFlow.getInterestEarned(prevBalance)), 
             Map.entry("Tax deducted", cashFlow.getTaxDeducted(prevBalance)),
             Map.entry("Profit", cashFlow.getProfit(prevBalance)), 

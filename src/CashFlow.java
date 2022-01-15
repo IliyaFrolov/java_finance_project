@@ -2,10 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 class CashFlow {
-    private double income;
-    private double expense;
-    private double interest;
-    private double incomeTax;
+    private Map<String, Double> flow = new HashMap<>();
     private static Map<String, Double> totals = new HashMap<>() {{
         put("Total income", 0.00);
         put("Total expense", 0.00);
@@ -18,10 +15,10 @@ class CashFlow {
     private ExpCategories categories;
 
     CashFlow(double income, double expense, double interest, double incomeTax) {
-        this.income = income;
-        this.expense = expense;
-        this.interest = interest;
-        this.incomeTax = incomeTax;
+        flow.put("Income", income);
+        flow.put("Expense", expense);
+        flow.put("Interest", interest);
+        flow.put("Income tax", incomeTax);
         CashFlow.totals.merge("Total income", income, Double::sum);
         CashFlow.totals.merge("Total expense", expense, Double::sum);
         CashFlow.totals.merge("Total interest", interest, Double::sum);
@@ -33,28 +30,12 @@ class CashFlow {
         this.categories = categories;
     }
 
-    double getIncome() {
-        return income;
-    }
-
-    double getExpense() {
-        return expense;
-    }
-
-    double getInterest() {
-        return interest;
-    }
-
-    double getIncomeTax() {
-        return incomeTax;
-    }
-
     double getInterestEarned(double prevBalance) {
-        return interest * prevBalance;
+        return flow.get("Interest") * prevBalance;
     }
 
     double getTaxDeducted(double prevBalance) {
-        return incomeTax * prevBalance;
+        return flow.get("Income tax") * prevBalance;
     }
 
     void updateTaxDeducted(double prevBalance) {
@@ -62,11 +43,11 @@ class CashFlow {
     }
 
     double getProfit(double prevBalance) {
-        return income + getInterestEarned(prevBalance) - getTaxDeducted(prevBalance) - expense;
+        return flow.get("Income") + getInterestEarned(prevBalance) - getTaxDeducted(prevBalance) - flow.get("Expense");
     }
 
     void upadateProfit(double prevBalance) {
-        double profit = income + getInterestEarned(prevBalance) - getTaxDeducted(prevBalance) - expense;
+        double profit = flow.get("Income") + getInterestEarned(prevBalance) - getTaxDeducted(prevBalance) - flow.get("Expense");
         CashFlow.totals.merge("Total profit", profit, Double::sum);
     }
 
@@ -75,10 +56,14 @@ class CashFlow {
     }
 
     void updateInterestEarned(double prevBalance) {
-        CashFlow.totals.merge("Total interest earned", prevBalance * interest, Double::sum);
+        CashFlow.totals.merge("Total interest earned", prevBalance * flow.get("Interest"), Double::sum);
     }
 
     static Map<String, Double> getTotals() {
         return CashFlow.totals;
+    }
+
+    Map<String, Double> getFlow() {
+        return flow;
     }
 }
