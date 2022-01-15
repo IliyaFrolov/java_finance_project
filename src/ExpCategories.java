@@ -2,12 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 class ExpCategories {
-    private double groceries;
-    private double eatingOut;
-    private double memberships;
-    private double bills;
-    private double travelling;
-    private double other;
+    private Map<String, Double> catFlow = new HashMap<>();
     private static Map<String, Double> catTotals = new HashMap<>() {{
         put("Total groceries", 0.00);
         put("Total eating out", 0.00);
@@ -18,12 +13,12 @@ class ExpCategories {
     }};
 
     public ExpCategories(double groceries, double eatingOut, double memberships, double bills, double travelling, double other) {
-        this.groceries = groceries;
-        this.eatingOut = eatingOut;
-        this.memberships = memberships;
-        this.bills = bills;
-        this.travelling = travelling;
-        this.other = other;
+        catFlow.put("Groceries", groceries);
+        catFlow.put("Eating out", eatingOut);
+        catFlow.put("Memberships", memberships);
+        catFlow.put("Bills", bills);
+        catFlow.put("Travelling",  travelling);
+        catFlow.put("Other", other);
         ExpCategories.catTotals.merge("Total groceries", groceries, Double::sum);
         ExpCategories.catTotals.merge("Total eating out", eatingOut, Double::sum);  
         ExpCategories.catTotals.merge("Total memberships", memberships, Double::sum); 
@@ -44,22 +39,17 @@ class ExpCategories {
         + "Other - %.2f\n";
 
         return String.format(breakdown, 
-            groceries,
-            eatingOut,
-            memberships,
-            bills,
-            travelling,
-            other
+            catFlow.get("Groceries"),
+            catFlow.get("Eating out"),
+            catFlow.get("Memberships"),
+            catFlow.get("Bills"),
+            catFlow.get("Travelling"),
+            catFlow.get("Other")
         );
     }
 
     double getExpense() {
-        return groceries 
-        + eatingOut
-        + memberships
-        + bills
-        + travelling 
-        + other;
+        return catFlow.values().stream().mapToDouble(Double::doubleValue).sum();
     }
 
     static Map<String, Double> getCatTotals() {

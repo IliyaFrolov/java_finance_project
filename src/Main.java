@@ -105,7 +105,7 @@ public class Main {
         printFinalReport(myAcc);
         printAverages(Cycle.MONTH);
 
-        Cycle cycleType = Cycle.MONTH;
+        Cycle cycleType = Cycle.DAY;
         List<CashFlow> projectedCashList = new ArrayList<>();
         CashFlow projectedCashFLow = new CashFlow(cycleType.getAverages().get("Total income"), cycleType.getAverages().get("Total expense"), cycleType.getAverages().get("Total interest"), cycleType.getAverages().get("Total income tax"));
 
