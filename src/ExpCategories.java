@@ -1,6 +1,5 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 class ExpCategories {
     private double groceries;
@@ -9,12 +8,14 @@ class ExpCategories {
     private double bills;
     private double travelling;
     private double other;
-    private static double totalGroceries = 0;
-    private static double totalEatingOut = 0;
-    private static double totalMemberships = 0;
-    private static double totalBills = 0;
-    private static double totalTravelling = 0;
-    private static double totalOther = 0;
+    private static Map<String, Double> catTotals = new HashMap<>() {{
+        put("Total groceries", 0.00);
+        put("Total eating out", 0.00);
+        put("Total memberships", 0.00);
+        put("Total bills", 0.00);
+        put("Total travelling", 0.00);
+        put("Total other", 0.00);
+    }};
 
     public ExpCategories(double groceries, double eatingOut, double memberships, double bills, double travelling, double other) {
         this.groceries = groceries;
@@ -23,13 +24,14 @@ class ExpCategories {
         this.bills = bills;
         this.travelling = travelling;
         this.other = other;
-        ExpCategories.totalGroceries += groceries;
-        ExpCategories.totalEatingOut += eatingOut;
-        ExpCategories.totalMemberships += memberships;
-        ExpCategories.totalBills += bills;
-        ExpCategories.totalTravelling += travelling;
-        ExpCategories.totalOther += other;
+        ExpCategories.catTotals.merge("Total groceries", groceries, Double::sum);
+        ExpCategories.catTotals.merge("Total eating out", eatingOut, Double::sum);  
+        ExpCategories.catTotals.merge("Total memberships", memberships, Double::sum); 
+        ExpCategories.catTotals.merge("Total bills", bills, Double::sum);
+        ExpCategories.catTotals.merge("Total travelling", travelling, Double::sum); 
+        ExpCategories.catTotals.merge("Total other", other, Double::sum);
     }
+
     @Override
     public String toString() {
         String breakdown = 
@@ -60,15 +62,8 @@ class ExpCategories {
         + other;
     }
 
-    static List<Double> getTotalsList() {
-        return new ArrayList<Double>(Arrays.asList(
-            totalGroceries,
-            totalEatingOut,
-            totalMemberships,
-            totalBills,
-            totalTravelling,
-            totalOther
-        ));
+    static Map<String, Double> getCatTotals() {
+        return catTotals;
     }
 
     static String getSummary() {
@@ -82,12 +77,12 @@ class ExpCategories {
         + "Total Other - %.2f\n";
 
         return String.format(breakdown, 
-            totalGroceries,
-            totalEatingOut,
-            totalMemberships,
-            totalBills,
-            totalTravelling,
-            totalOther
+            catTotals.get("Total groceries"),
+            catTotals.get("Total eating out"),
+            catTotals.get("Total memberships"),
+            catTotals.get("Total bills"),
+            catTotals.get("Total travelling"),
+            catTotals.get("Total other")
         );
     }
 

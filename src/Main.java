@@ -107,7 +107,7 @@ public class Main {
 
         Cycle cycleType = Cycle.MONTH;
         List<CashFlow> projectedCashList = new ArrayList<>();
-        CashFlow projectedCashFLow = new CashFlow(cycleType.getAvIncome(), cycleType.getAvExpense(), cycleType.getAvInterest(), cycleType.getAvIncomeTax());
+        CashFlow projectedCashFLow = new CashFlow(cycleType.getAverages().get("Total income"), cycleType.getAverages().get("Total expense"), cycleType.getAverages().get("Total interest"), cycleType.getAverages().get("Total income tax"));
 
         for (int j = 0; j < cashFlowList.size(); j++) {
             projectedCashList.add(projectedCashFLow);

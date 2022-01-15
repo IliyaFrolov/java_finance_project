@@ -95,8 +95,8 @@ class Account {
                 monthCycles = cycles;
         }
         
-        Cycle.DAY.calcAverages(CashFlow.getTotals(), dayCycles, ExpCategories.getTotalsList());
-        Cycle.WEEK.calcAverages(CashFlow.getTotals(), weekCycles, ExpCategories.getTotalsList());
-        Cycle.MONTH.calcAverages(CashFlow.getTotals(), monthCycles, ExpCategories.getTotalsList());
+        Cycle.DAY.calcAverages(CashFlow.getTotals(), dayCycles, ExpCategories.getCatTotals());
+        Cycle.WEEK.calcAverages(CashFlow.getTotals(), weekCycles, ExpCategories.getCatTotals());
+        Cycle.MONTH.calcAverages(CashFlow.getTotals(), monthCycles, ExpCategories.getCatTotals());
     }
 }

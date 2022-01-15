@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -7,77 +6,23 @@ enum Cycle {
     DAY, WEEK, MONTH;
 
     private Map<String, Double> averages = new HashMap<>();
-    private double avGroceries;
-    private double avEatingOut;
-    private double avMemberships;
-    private double avBills;
-    private double avTravelling;
-    private double avOther;
+    private Map<String, Double> catAverages = new HashMap<>();
 
-    void calcAverages(Map<String, Double> totals, double cycles, List<Double> categoriesTotal) {
+    void calcAverages(Map<String, Double> totals, double cycles, Map<String, Double> catTotals) {
         if (cycles == 0) {
             return;
         }
         
         averages = totals.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue()/cycles));
-        this.avGroceries = categoriesTotal.get(0) / cycles;
-        this.avEatingOut = categoriesTotal.get(1) / cycles;
-        this.avMemberships = categoriesTotal.get(2) / cycles;
-        this.avBills = categoriesTotal.get(3) / cycles;
-        this.avTravelling = categoriesTotal.get(4) / cycles;
-        this.avOther = categoriesTotal.get(5) / cycles;
+        catAverages = catTotals.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue()/cycles));
     }
 
-    double getAvInterest() {
-        return averages.get("Total interest");
+    Map<String, Double> getAverages() {
+        return averages;
     }
 
-    double getAvInterestEarned() {
-        return averages.get("Total interest earned");
-    }
-
-    double getAvIncomeTax() {
-        return averages.get("Total income tax");
-    }
-
-    double getAvTaxDeducted() {
-        return averages.get("Total tax deducted");
-    }
-
-    double getAvIncome() {
-        return averages.get("Total income");
-    }
-
-    double getAvExpense() {
-        return averages.get("Total expense");
-    }
-
-    double getAvProfit() {
-        return averages.get("Total profit");
-    }
-
-    double getAvGroceries() {
-        return avGroceries;
-    }
-
-    double getAvEatingOut() {
-        return avEatingOut;
-    }
-
-    double getAvMemberships() {
-        return avMemberships;
-    }
-
-    double getAvBills() {
-        return avBills;
-    }
-
-    double getAvTravelling() {
-        return avTravelling;
-    }
-
-    double getAvOther() {
-        return avOther;
+    Map<String, Double> getCatAverages() {
+        return catAverages;
     }
 
     @Override
@@ -101,11 +46,12 @@ enum Cycle {
                 averages.get("Total income"),
                 averages.get("Total expense"),
                 averages.get("Total profit"),
-                avGroceries,
-                avEatingOut,
-                avMemberships,
-                avBills,
-                avTravelling,
-                avOther);
+                catAverages.get("Total groceries"),
+                catAverages.get("Total eating out"),
+                catAverages.get("Total memberships"),
+                catAverages.get("Total bills"),
+                catAverages.get("Total travelling"),
+                catAverages.get("Total other")
+                );
     }
 }
