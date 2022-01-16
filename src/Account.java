@@ -9,15 +9,22 @@ class Account {
     private Cycle cycleType;
     private List<Map<String, Double>> summaryLog = new ArrayList<>();
     
-    private Account(Balance balance, Cycle cycleType, List<CashFlow> cashFlowList)  {
+    private Account(Balance balance, Cycle cycleType, List<CashFlow> cashFlowList, int cycles)  {
         this.balance = balance;
         this.cycleType = cycleType;
         this.cashFlowList = cashFlowList;
+        this.cycles = cycles;
+    }
+
+    static Account createAccount(double initBalance, Cycle cycleType, List<CashFlow> cashFlowList, int cycles) {
+        var instance = new Account(new Balance(initBalance), cycleType, cashFlowList, cycles);
+        instance.run();
+
+        return instance;
     }
 
     static Account createAccount(double initBalance, Cycle cycleType, List<CashFlow> cashFlowList) {
-        var instance = new Account(new Balance(initBalance), cycleType, cashFlowList);
-        instance.cycles = cashFlowList.size();
+        var instance = new Account(new Balance(initBalance), cycleType, cashFlowList, cashFlowList.size());
         instance.run();
 
         return instance;

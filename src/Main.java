@@ -1,4 +1,3 @@
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.ArrayList;
@@ -72,9 +71,6 @@ public class Main {
         System.out.println(cycleType);
     }
 
-    static double sum(Map<String, Double> cat) {
-        return cat.values().stream().mapToDouble(Double::doubleValue).sum();
-    }
     public static void main(String[] args) throws Exception {        
         List<ExpCategories> categories = new ArrayList<>();
         categories.add(new ExpCategories(55.92, 92.97, 17.00, 679.66, 75.96, 5.00, 50.00));
@@ -107,14 +103,15 @@ public class Main {
         printAverages(Cycle.MONTH);
 
         Cycle cycleType = Cycle.MONTH;
+        int cycles = 5;
         List<CashFlow> projectedCashList = new ArrayList<>();
         CashFlow projectedCashFLow = new CashFlow(cycleType.getAverages().get("Income"), cycleType.getAverages().get("Expense"), cycleType.getAverages().get("Interest"), cycleType.getAverages().get("Income tax"));
 
-        for (int j = 0; j < cashFlowList.size(); j++) {
+        for (int j = 0; j < cycles; j++) {
             projectedCashList.add(projectedCashFLow);
         }
 
-        Account projectedAcc = Account.createAccount(myAcc.getBalance().getNextBalance(), cycleType, projectedCashList);
+        Account projectedAcc = Account.createAccount(myAcc.getBalance().getNextBalance(), cycleType, projectedCashList, cycles);
         printCycleReport(projectedAcc);
         printFinalReport(projectedAcc);
     }
