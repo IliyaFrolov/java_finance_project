@@ -1,8 +1,15 @@
+package account;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-class Account { 
+import util.Balance;
+import util.CashFlow;
+import util.Cycle;
+import util.ExpCategories;
+
+public class Account { 
     private Balance balance;
     private List<CashFlow> cashFlowList;
     private int cycles;
@@ -16,37 +23,37 @@ class Account {
         this.cycles = cycles;
     }
 
-    static Account createAccount(double initBalance, Cycle cycleType, List<CashFlow> cashFlowList, int cycles) {
+    public static Account createAccount(double initBalance, Cycle cycleType, List<CashFlow> cashFlowList, int cycles) {
         var instance = new Account(new Balance(initBalance), cycleType, cashFlowList, cycles);
         instance.run();
 
         return instance;
     }
 
-    static Account createAccount(double initBalance, Cycle cycleType, List<CashFlow> cashFlowList) {
+    public static Account createAccount(double initBalance, Cycle cycleType, List<CashFlow> cashFlowList) {
         var instance = new Account(new Balance(initBalance), cycleType, cashFlowList, cashFlowList.size());
         instance.run();
 
         return instance;
     }
 
-    Balance getBalance() {
+    public Balance getBalance() {
         return balance;
     }
 
-    List<CashFlow> getCashFlow() {
+    public List<CashFlow> getCashFlow() {
         return cashFlowList;
     }
 
-    int getCycles() {
+    public int getCycles() {
         return cycles;
     }
 
-    Cycle getCycleType() {
+    public Cycle getCycleType() {
         return cycleType;
     }
 
-    List<Map<String, Double>> getSummaryLog() {
+    public List<Map<String, Double>> getSummaryLog() {
         return summaryLog;
     }
     

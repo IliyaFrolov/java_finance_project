@@ -1,14 +1,16 @@
+package util;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-enum Cycle {
+public enum Cycle { 
     DAY, WEEK, MONTH;
 
     private Map<String, Double> averages = new HashMap<>();
     private Map<String, Double> catAverages = new HashMap<>();
 
-    void calcAverages(Map<String, Double> totals, double cycles, Map<String, Double> catTotals) {
+    public void calcAverages(Map<String, Double> totals, double cycles, Map<String, Double> catTotals) {
         if (cycles == 0) {
             return;
         }
@@ -17,11 +19,11 @@ enum Cycle {
         catAverages = catTotals.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue()/cycles));
     }
 
-    Map<String, Double> getAverages() {
+    public Map<String, Double> getAverages() {
         return averages;
     }
 
-    Map<String, Double> getCatAverages() {
+    public Map<String, Double> getCatAverages() {
         return catAverages;
     }
 

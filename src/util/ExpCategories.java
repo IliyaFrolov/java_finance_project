@@ -1,7 +1,9 @@
+package util;
+
 import java.util.HashMap;
 import java.util.Map;
 
-class ExpCategories {
+public class ExpCategories {
     private Map<String, Double> catFlow = new HashMap<>();
     private static Map<String, Double> catTotals = new HashMap<>();
 
@@ -39,15 +41,15 @@ class ExpCategories {
         );
     }
 
-    double getExpense() {
+    public double getExpense() {
         return catFlow.values().stream().mapToDouble(Double::doubleValue).sum();
     }
 
-    static Map<String, Double> getCatTotals() {
+    public static Map<String, Double> getCatTotals() {
         return catTotals;
     }
 
-    static String getSummary() {
+    public static String getSummary() {
         String breakdown = 
         "Category Summary Breakdown:\n"
         + "Total Groceries - %.2f\n"
