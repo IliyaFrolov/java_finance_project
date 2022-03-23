@@ -1,6 +1,24 @@
+<<<<<<< HEAD
 README.md
 .vscode/settings.json
 .vscode/launch.json
 project ideas.txt
 .gitignore
 .vscode/tasks.json
+=======
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+>>>>>>> 801eb94... Initial android app commit
