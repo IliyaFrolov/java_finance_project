@@ -1,13 +1,13 @@
-package account;
+package com.hfad.easybudget.account;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import util.Balance;
-import util.CashFlow;
-import util.Cycle;
-import util.ExpCategories;
+import com.hfad.easybudget.util.Balance;
+import com.hfad.easybudget.util.CashFlow;
+import com.hfad.easybudget.util.Cycle;
+import com.hfad.easybudget.util.ExpCategories;
 
 public class Account { 
     private Balance balance;
@@ -24,14 +24,14 @@ public class Account {
     }
 
     public static Account createAccount(double initBalance, Cycle cycleType, List<CashFlow> cashFlowList, int cycles) {
-        var instance = new Account(new Balance(initBalance), cycleType, cashFlowList, cycles);
+        Account instance = new Account(new Balance(initBalance), cycleType, cashFlowList, cycles);
         instance.run();
 
         return instance;
     }
 
     public static Account createAccount(double initBalance, Cycle cycleType, List<CashFlow> cashFlowList) {
-        var instance = new Account(new Balance(initBalance), cycleType, cashFlowList, cashFlowList.size());
+        Account instance = new Account(new Balance(initBalance), cycleType, cashFlowList, cashFlowList.size());
         instance.run();
 
         return instance;

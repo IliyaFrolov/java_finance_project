@@ -1,4 +1,4 @@
-package util;
+package com.hfad.easybudget.util;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package util;
+package com.hfad.easybudget.util;
 
 public class Balance {
     private double initBalance;

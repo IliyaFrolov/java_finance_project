@@ -1,15 +1,16 @@
-package account;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import exceptions.InputLengthException;
-import util.CashFlow;
-import util.Cycle;
-import util.ExpCategories;
+package com.hfad.easybudget.account;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import com.hfad.easybudget.exceptions.InputLengthException;
+import com.hfad.easybudget.util.CashFlow;
+import com.hfad.easybudget.util.Cycle;
+import com.hfad.easybudget.util.ExpCategories;
 
 public class Main {
 
@@ -55,13 +56,13 @@ public class Main {
         + "Total profit - %.2f\n"
         + "Total balance - %.2f\n";
 
-        var totals = CashFlow.getTotals();
+        Map<String, Double> totals = CashFlow.getTotals();
         System.out.println(String.format(
             SUMMARY, 
             account.getCycles(), 
             account.getCycleType().name().toLowerCase(), 
             account.getBalance().getInitBalance(), 
-            totals.get("Income"), 
+            totals.get("Income"),
             totals.get("Expense"), 
             totals.get("Interest earned"), 
             totals.get("Tax deducted"),

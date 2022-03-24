@@ -1,4 +1,4 @@
-package exceptions;
+package com.hfad.easybudget.exceptions;
 
 public class InputLengthException extends Exception {
     
