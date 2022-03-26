@@ -79,7 +79,7 @@ public class Main {
         System.out.println(cycleType);
     }
 
-    public static void main(String[] args) throws Exception {        
+    /*public static void main(String[] args) throws Exception {
         List<ExpCategories> categories = new ArrayList<>();
         categories.add(new ExpCategories(55.92, 92.97, 17.00, 679.66, 75.96, 5.00, 50.00));
         categories.add(new ExpCategories(118.02, 388.51, 17.00, 891.66, 40.00, 7.00, 100.00));
@@ -122,5 +122,5 @@ public class Main {
         Account projectedAcc = Account.createAccount(myAcc.getBalance().getNextBalance(), cycleType, projectedCashList, cycles);
         printCycleReport(projectedAcc);
         printFinalReport(projectedAcc);
-    }
+    }*/
 }

@@ -1,3 +1,4 @@
 <resources>
+    <string name="hello_blank_fragment">Hello World!</string>
     <string name="app_name">EasyBudget</string>
 </resources>
