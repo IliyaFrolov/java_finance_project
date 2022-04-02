@@ -1,4 +1,13 @@
 <resources>
     <string name="hello_blank_fragment">Hello World!</string>
     <string name="app_name">EasyBudget</string>
+    <string name="add_entry">Add Entry</string>
+    <string name="calculate">Calculate!</string>
+    <string name="no_entries">No Entries</string>
+    <string name="input_init_balance">Initial Balance</string>
+    <string name="input_income">Income</string>
+    <string name="input_expense">Expense</string>
+    <string name="input_interest">Incoming Interest</string>
+    <string name="input_tax">Tax</string>
+    <string name="input_add_entry">Add Entry</string>
 </resources>
