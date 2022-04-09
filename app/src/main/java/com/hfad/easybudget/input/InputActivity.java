@@ -1,6 +1,7 @@
 package com.hfad.easybudget.input;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,6 +15,14 @@ import android.widget.ExpandableListView;
 import com.hfad.easybudget.EntriesFragment;
 import com.hfad.easybudget.MainActivity;
 import com.hfad.easybudget.R;
+import com.hfad.easybudget.util.CashFlow;
+
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
 
 public class InputActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -33,6 +42,12 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
         int month = datePicker.getMonth();
         int year = datePicker.getYear();
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+        String strDate = format.format(calendar.getTime());
+
         String initText = ((EditText) findViewById(R.id.input_edit_init)).getText().toString();
         int initialBalance = initText.isEmpty() ? 0 : Integer.parseInt(initText);
 
@@ -48,7 +63,14 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
         String taxText = ((EditText) findViewById(R.id.input_edit_tax)).getText().toString();
         int tax = taxText.isEmpty() ? 0 : Integer.parseInt(taxText);
 
-        setResult(Activity.RESULT_OK);
+        List<Integer> numericInput = Arrays.asList(income, expense, interest, tax);
+
+        Intent mainIntent = new Intent();
+        mainIntent.putExtra(MainActivity.EXTRA_DATE, strDate);
+        mainIntent.putExtra(MainActivity.EXTRA_NUMERIC_INPUT, (Serializable) numericInput);
+        mainIntent.putExtra(MainActivity.EXTRA_INITIAL_BALANCE, initialBalance);
+
+        setResult(Activity.RESULT_OK, mainIntent);
         finish();
     }
 }
