@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ExpandableListView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".EntriesFragment"
-    android:id="@+id/entry_expandable_view"
+    android:id="@+id/entry_recycler_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-    android:divider="@android:color/darker_gray"
-    android:dividerHeight="0.5dp" />
+    android:layout_height="match_parent" />
 

@@ -45,7 +45,7 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
 
-        SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd MMMM yyyy");
         String strDate = format.format(calendar.getTime());
 
         String initText = ((EditText) findViewById(R.id.input_edit_init)).getText().toString();

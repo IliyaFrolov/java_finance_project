@@ -2,11 +2,16 @@ package com.hfad.easybudget;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -23,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_DATE = "date";
     public static final String EXTRA_NUMERIC_INPUT = "numericInput";
     public static final String EXTRA_INITIAL_BALANCE = "initialBalance";
-    private static ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter();
-    
+    private EntriesFragment entriesFragment;
+
     private ActivityResultLauncher<Intent> getResult = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -32,21 +37,19 @@ public class MainActivity extends AppCompatActivity {
                     Intent mainIntent = result.getData();
 
                     if (mainIntent != null) {
-                        System.out.println("MainActivity expandableListAdapter being created!");
-                        final String strDate =  (String) mainIntent.getExtras().get(MainActivity.EXTRA_DATE);
-                        final List<Integer> numericInput = (List) mainIntent.getExtras().get(MainActivity.EXTRA_NUMERIC_INPUT);
-                        final int initialBalance = (int) mainIntent.getExtras().get(MainActivity.EXTRA_INITIAL_BALANCE);
-                        final List<String> childrenTitles = Arrays.asList("Income", "Expense", "Interest", "Tax");
-                        MainActivity.expandableListAdapter.initExpandableListAdapter(strDate, numericInput, childrenTitles, this);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.main_fragment_container, EntriesFragment.class, null)
-                                .setReorderingAllowed(true)
-                                .commit();
-                        getSupportFragmentManager().executePendingTransactions();
-                        ExpandableListView expandableListView = findViewById(R.id.entry_expandable_view);
-                        System.out.println(expandableListView == null);
-                        expandableListView.setAdapter(MainActivity.expandableListAdapter);
+                        String strDate =  (String)mainIntent.getExtras().get(MainActivity.EXTRA_DATE);
+                        List<Integer> numericInput = (List)mainIntent.getExtras().get(MainActivity.EXTRA_NUMERIC_INPUT);
+                        int initialBalance = (int)mainIntent.getExtras().get(MainActivity.EXTRA_INITIAL_BALANCE);
 
+                        if (entriesFragment == null) {
+                            entriesFragment = new EntriesFragment(strDate, numericInput);
+                            getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.main_fragment_container, entriesFragment, null)
+                                    .setReorderingAllowed(true)
+                                    .commit();
+                        } else {
+                            entriesFragment.updateEntries(strDate, numericInput);
+                        }
                     }
                 }
             });
@@ -54,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("MainActivity onCreate() called!");
         setContentView(R.layout.activity_main);
 
         getSupportFragmentManager().beginTransaction()
@@ -76,8 +78,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        System.out.println("MainActivity onStart() called!");
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }
