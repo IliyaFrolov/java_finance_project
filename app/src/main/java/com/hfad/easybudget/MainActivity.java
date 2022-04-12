@@ -5,6 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_DATE = "date";
     public static final String EXTRA_NUMERIC_INPUT = "numericInput";
     public static final String EXTRA_INITIAL_BALANCE = "initialBalance";
+    private boolean hasEntries = false;
     private EntriesFragment entriesFragment;
 
     private ActivityResultLauncher<Intent> getResult = registerForActivityResult(
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
                         if (entriesFragment == null) {
                             entriesFragment = new EntriesFragment(strDate, numericInput);
+                            hasEntries = true;
                             getSupportFragmentManager().beginTransaction()
                                     .replace(R.id.main_fragment_container, entriesFragment, null)
                                     .setReorderingAllowed(true)
@@ -58,11 +61,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().setReorderingAllowed(true);
 
-        getSupportFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .add(R.id.main_fragment_container, MainFragment.class, null)
-                .commit();
+        if (savedInstanceState != null) {
+            hasEntries = savedInstanceState.getBoolean("has_entries");
+        }
+
+        if (hasEntries == true) {
+            fragmentTransaction.add(R.id.main_fragment_container, EntriesFragment.class, null);
+        } else {
+            fragmentTransaction.add(R.id.main_fragment_container, MainFragment.class, null);
+        }
+        fragmentTransaction.commit();
 
         Button buttonCalculate = findViewById(R.id.button_calculate);
         buttonCalculate.setOnClickListener((View view) -> {
@@ -80,5 +90,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        if (entriesFragment != null) {
+            outState.putBoolean("has_entries", hasEntries);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

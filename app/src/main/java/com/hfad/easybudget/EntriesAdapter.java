@@ -1,5 +1,6 @@
 package com.hfad.easybudget;
 
+import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -16,10 +17,29 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHolder> {
+public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHolder> implements Parcelable {
     private List<String> dates = new ArrayList<>();
     private HashMap<String, List<String>> groups = new HashMap<>();
     private List<String> items = Arrays.asList("Income", "Expense", "Interest", "Tax");
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public EntriesAdapter createFromParcel(Parcel in) {
+            return new EntriesAdapter(in);
+        }
+
+        public EntriesAdapter[] newArray(int size) {
+            return new EntriesAdapter[size];
+        }
+    };
+
+    public EntriesAdapter() {
+        super();
+    }
+
+    private EntriesAdapter(Parcel in) {
+        in.readList(dates, EntriesAdapter.class.getClassLoader());
+        in.readMap(groups, EntriesAdapter.class.getClassLoader());
+    }
 
     public List<String> getdates() {
         return dates;
@@ -64,6 +84,17 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
     @Override
     public int getItemCount() {
         return dates.size();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeList(dates);
+        parcel.writeMap(groups);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
