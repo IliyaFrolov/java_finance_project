@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_NUMERIC_INPUT = "numericInput";
     public static final String EXTRA_INITIAL_BALANCE = "initialBalance";
     private boolean hasEntries = false;
-    private EntriesFragment entriesFragment;
 
     private ActivityResultLauncher<Intent> getResult = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -43,14 +42,17 @@ public class MainActivity extends AppCompatActivity {
                         List<Integer> numericInput = (List)mainIntent.getExtras().get(MainActivity.EXTRA_NUMERIC_INPUT);
                         int initialBalance = (int)mainIntent.getExtras().get(MainActivity.EXTRA_INITIAL_BALANCE);
 
-                        if (entriesFragment == null) {
-                            entriesFragment = new EntriesFragment(strDate, numericInput);
+                        if (!hasEntries) {
                             hasEntries = true;
+                            EntriesFragment entriesFragment = new EntriesFragment();
+                            entriesFragment.updateEntries(strDate, numericInput);
                             getSupportFragmentManager().beginTransaction()
                                     .replace(R.id.main_fragment_container, entriesFragment, null)
                                     .setReorderingAllowed(true)
                                     .commit();
                         } else {
+                            EntriesFragment entriesFragment =
+                                    (EntriesFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment_container);
                             entriesFragment.updateEntries(strDate, numericInput);
                         }
                     }
@@ -61,18 +63,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().setReorderingAllowed(true);
-
-        if (savedInstanceState != null) {
-            hasEntries = savedInstanceState.getBoolean("has_entries");
-        }
-
-        if (hasEntries == true) {
-            fragmentTransaction.add(R.id.main_fragment_container, EntriesFragment.class, null);
-        } else {
-            fragmentTransaction.add(R.id.main_fragment_container, MainFragment.class, null);
-        }
-        fragmentTransaction.commit();
 
         Button buttonCalculate = findViewById(R.id.button_calculate);
         buttonCalculate.setOnClickListener((View view) -> {
@@ -85,14 +75,19 @@ public class MainActivity extends AppCompatActivity {
             Intent inputIntent = new Intent(this, InputActivity.class);
             getResult.launch(inputIntent);
         });
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().setReorderingAllowed(true)
+                    .add(R.id.main_fragment_container, MainFragment.class, null).commit();
+        } else {
+            hasEntries = savedInstanceState.getBoolean("has_entries");
+        }
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (entriesFragment != null) {
-            outState.putBoolean("has_entries", hasEntries);
-        }
+        outState.putBoolean("has_entries", hasEntries);
     }
 
     @Override

@@ -37,8 +37,20 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
     }
 
     private EntriesAdapter(Parcel in) {
+        super();
         in.readList(dates, EntriesAdapter.class.getClassLoader());
         in.readMap(groups, EntriesAdapter.class.getClassLoader());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeList(dates);
+        parcel.writeMap(groups);
     }
 
     public List<String> getdates() {
@@ -60,7 +72,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
     public void addEntry(String strDate, List<Integer> numericInput) {
         dates.add(strDate);
         groups.put(strDate, IntStream.range(0, items.size())
-        .mapToObj(i -> new String(items.get(i)+numericInput.get(i)))
+        .mapToObj(i -> items.get(i)+numericInput.get(i))
         .collect(Collectors.toList()));
     }
 
@@ -86,16 +98,6 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         return dates.size();
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeList(dates);
-        parcel.writeMap(groups);
-    }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView entryText;

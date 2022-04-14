@@ -12,23 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class EntriesFragment extends Fragment {
     private EntriesAdapter entriesAdapter = new EntriesAdapter();
-    private String strDate;
-    private List<Integer> numericInput;
-
-    public EntriesFragment() {
-        super();
-    }
-
-    public EntriesFragment(String strDate, List<Integer> numericInput) {
-        super();
-        this.strDate = strDate;
-        this.numericInput = numericInput;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,10 +29,8 @@ public class EntriesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RecyclerView recyclerView = (RecyclerView) inflater
                 .inflate(R.layout.fragment_entries, container, false);
-        entriesAdapter.addEntry(strDate, numericInput);
         recyclerView.setAdapter(entriesAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         return recyclerView;
     }
 
