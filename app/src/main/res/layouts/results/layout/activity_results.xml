@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    tools:context=".ResultsActivity">
+    tools:context=".results.ResultsActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_results"

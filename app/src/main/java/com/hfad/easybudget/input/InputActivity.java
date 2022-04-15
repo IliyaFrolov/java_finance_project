@@ -1,7 +1,6 @@
 package com.hfad.easybudget.input;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,16 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ExpandableListView;
 
-import com.hfad.easybudget.EntriesFragment;
-import com.hfad.easybudget.MainActivity;
+import com.hfad.easybudget.home.MainActivity;
 import com.hfad.easybudget.R;
-import com.hfad.easybudget.util.CashFlow;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;

@@ -13,11 +13,11 @@
             android:name=".input.InputActivity"
             android:exported="false" />
         <activity
-            android:name=".ResultsActivity"
+            android:name=".results.ResultsActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".home.MainActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".home.MainActivity"
             android:exported="true"
             android:launchMode="singleTop" >
             <intent-filter>

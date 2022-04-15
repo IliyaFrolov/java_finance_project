@@ -22,11 +22,25 @@ android {
         }
     }
 
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res/layouts/home',
+                            'src/main/res/layouts/input',
+                            'src/main/res/layouts/results',
+                            'src/main/res/layouts',
+                            'src/main/res'
+                    ]
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
     compileSdkVersion 32
+    buildToolsVersion '32.0.0'
 }
 
 dependencies {
