@@ -1,9 +1,12 @@
 package com.hfad.easybudget.home;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,7 +25,8 @@ import java.util.stream.IntStream;
 public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHolder> implements Parcelable {
     private List<String> dates = new ArrayList<>();
     private HashMap<String, List<String>> groups = new HashMap<>();
-    private List<String> items = Arrays.asList("Income", "Expense", "Interest", "Tax");
+    private List<String> items = Arrays.asList("Income ", "Expense ", "Interest ", "Tax ");
+    private boolean isExpanded = false;
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public EntriesAdapter createFromParcel(Parcel in) {
@@ -55,22 +59,6 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         parcel.writeMap(groups);
     }
 
-    public List<String> getdates() {
-        return dates;
-    }
-
-    public void setDates(List<String> dates) {
-        this.dates = dates;
-    }
-
-    public HashMap<String, List<String>> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(HashMap<String, List<String>> groups) {
-        this.groups = groups;
-    }
-
     public void addEntry(String strDate, List<Integer> numericInput) {
         dates.add(strDate);
         groups.put(strDate, IntStream.range(0, items.size())
@@ -92,7 +80,32 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.entryText.setText(dates.get(position));
+        LinearLayout expandableLayout = holder.entryCardView.findViewById(R.id.entry_expandable_layout);
+
+        ((TextView)expandableLayout.findViewById(R.id.entry_income_text))
+                .setText(groups.get(dates.get(position)).get(0));
+        ((TextView)expandableLayout.findViewById(R.id.entry_expense_text))
+                .setText(groups.get(dates.get(position)).get(1));
+        ((TextView)expandableLayout.findViewById(R.id.entry_interest_text))
+                .setText(groups.get(dates.get(position)).get(2));
+        ((TextView)expandableLayout.findViewById(R.id.entry_tax_text))
+                .setText(groups.get(dates.get(position)).get(3));
+
+        holder.entryCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isExpanded) {
+                    isExpanded = false;
+                    expandableLayout.setVisibility(View.VISIBLE);
+                } else {
+                    isExpanded = true;
+                    expandableLayout.setVisibility(view.GONE);
+                }
+            }
+        });
+
+        ((TextView)holder.entryCardView.findViewById(R.id.entry_header_text))
+                .setText(dates.get(position));
     }
 
     @Override
@@ -102,13 +115,11 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView entryText;
         CardView entryCardView;
 
         public ViewHolder(@NonNull CardView itemView) {
             super(itemView);
             entryCardView = itemView;
-            entryText = itemView.findViewById(R.id.entry_text);
         }
     }
 }
