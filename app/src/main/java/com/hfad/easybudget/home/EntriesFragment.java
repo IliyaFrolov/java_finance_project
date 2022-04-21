@@ -32,6 +32,7 @@ public class EntriesFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) inflater
                 .inflate(R.layout.fragment_entries, container, false);
         recyclerView.setAdapter(entriesAdapter);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return recyclerView;
     }

@@ -80,32 +80,20 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        LinearLayout expandableLayout = holder.entryCardView.findViewById(R.id.entry_expandable_layout);
+        holder.headerText.setText(dates.get(position));
+        holder.incomeText.setText(groups.get(dates.get(position)).get(0));
+        holder.expenseText.setText(groups.get(dates.get(position)).get(1));
+        holder.interestText.setText(groups.get(dates.get(position)).get(2));
+        holder.taxText.setText(groups.get(dates.get(position)).get(3));
+        holder.expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
 
-        ((TextView)expandableLayout.findViewById(R.id.entry_income_text))
-                .setText(groups.get(dates.get(position)).get(0));
-        ((TextView)expandableLayout.findViewById(R.id.entry_expense_text))
-                .setText(groups.get(dates.get(position)).get(1));
-        ((TextView)expandableLayout.findViewById(R.id.entry_interest_text))
-                .setText(groups.get(dates.get(position)).get(2));
-        ((TextView)expandableLayout.findViewById(R.id.entry_tax_text))
-                .setText(groups.get(dates.get(position)).get(3));
-
-        holder.entryCardView.setOnClickListener(new View.OnClickListener() {
+        holder.headerText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isExpanded) {
-                    isExpanded = false;
-                    expandableLayout.setVisibility(View.VISIBLE);
-                } else {
-                    isExpanded = true;
-                    expandableLayout.setVisibility(view.GONE);
-                }
+                isExpanded = !isExpanded;
+                notifyItemChanged(position);
             }
         });
-
-        ((TextView)holder.entryCardView.findViewById(R.id.entry_header_text))
-                .setText(dates.get(position));
     }
 
     @Override
@@ -113,13 +101,20 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         return dates.size();
     }
 
-
     static class ViewHolder extends RecyclerView.ViewHolder {
-        CardView entryCardView;
+        CardView cardView;
+        LinearLayout expandableLayout;
+        TextView headerText, incomeText, expenseText, interestText, taxText;
 
         public ViewHolder(@NonNull CardView itemView) {
             super(itemView);
-            entryCardView = itemView;
+            cardView = itemView;
+            expandableLayout = itemView.findViewById(R.id.entry_expandable_layout);
+            headerText = itemView.findViewById(R.id.entry_header_text);
+            incomeText = itemView.findViewById(R.id.entry_income_text);
+            expenseText = itemView.findViewById(R.id.entry_expense_text);
+            interestText = itemView.findViewById(R.id.entry_interest_text);
+            taxText = itemView.findViewById(R.id.entry_tax_text);
         }
     }
 }

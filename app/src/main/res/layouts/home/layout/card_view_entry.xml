@@ -4,53 +4,56 @@
     android:id="@+id/card_view_entry"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
     android:layout_marginBottom="5dp"
-    app:cardCornerRadius="5dp"
-    app:cardElevation="4dp">
+    app:cardCornerRadius="7dp"
+    app:cardElevation="6dp"
+    app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:id="@+id/entry_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/entry_header_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize=""/>
+            android:textSize="@dimen/header_text_size"/>
 
         <LinearLayout
             android:id="@+id/entry_expandable_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:animateLayoutChanges="true"
             android:visibility="gone">
 
             <TextView
                 android:id="@+id/entry_income_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/items_text_size"/>
 
             <TextView
                 android:id="@+id/entry_expense_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/items_text_size"/>
 
             <TextView
                 android:id="@+id/entry_interest_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/items_text_size"/>
 
             <TextView
                 android:id="@+id/entry_tax_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/items_text_size"/>
 
         </LinearLayout>
-
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>
