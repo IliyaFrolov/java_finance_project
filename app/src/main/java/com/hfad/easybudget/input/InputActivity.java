@@ -49,7 +49,6 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
 
         final HashMap<String, Double> numericInput = new HashMap<>();
         final ViewGroup rootView = (ViewGroup) findViewById(R.id.input_constraint_layout);
-        double initialBalance = 0.00;
 
         for (int i = 0; i < rootView.getChildCount(); i++) {
             final View inputTextView = rootView.getChildAt(i);
@@ -60,9 +59,6 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
             final String inputText = ((EditText) inputTextView).getText().toString();
 
             switch (inputTextView.getId()) {
-                case R.id.input_edit_init:
-                    initialBalance = inputText.isEmpty() ? 0.00 : Double.parseDouble(inputText);
-
                 case R.id.input_edit_income:
                     numericInput.put("Income", inputText.isEmpty() ? 0.00 : Double.parseDouble(inputText));
                     break;
@@ -84,10 +80,8 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
         Intent mainIntent = new Intent();
         mainIntent.putExtra(MainActivity.EXTRA_DATE, strDate);
         mainIntent.putExtra(MainActivity.EXTRA_NUMERIC_INPUT, (Serializable) numericInput);
-        mainIntent.putExtra(MainActivity.EXTRA_INITIAL_BALANCE, initialBalance);
 
         setResult(Activity.RESULT_OK, mainIntent);
-
         finish();
     }
 }

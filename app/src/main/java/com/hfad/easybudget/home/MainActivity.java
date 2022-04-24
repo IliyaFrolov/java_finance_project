@@ -22,7 +22,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_DATE = "date";
     public static final String EXTRA_NUMERIC_INPUT = "numericInput";
-    public static final String EXTRA_INITIAL_BALANCE = "initialBalance";
     private boolean hasEntries = false;
 
     private ActivityResultLauncher<Intent> getResult = registerForActivityResult(
@@ -34,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
                     if (mainIntent != null) {
                         String strDate =  (String)mainIntent.getExtras().get(MainActivity.EXTRA_DATE);
                         HashMap<String, Double> numericInput = (HashMap)mainIntent.getExtras().get(MainActivity.EXTRA_NUMERIC_INPUT);
-                        double initialBalance = (int)mainIntent.getExtras().get(MainActivity.EXTRA_INITIAL_BALANCE);
 
                         if (!hasEntries) {
                             hasEntries = true;
