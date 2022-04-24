@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.hfad.easybudget.R;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class EntriesFragment extends Fragment {
@@ -37,7 +38,7 @@ public class EntriesFragment extends Fragment {
         return recyclerView;
     }
 
-    public void updateEntries(String strDate, List<Integer> numericInput) {
+    public void updateEntries(String strDate, HashMap<String, Double> numericInput) {
         entriesAdapter.addEntry(strDate, numericInput);
         entriesAdapter.notifyItemInserted(entriesAdapter.getEntryPos());
     }

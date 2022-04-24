@@ -25,7 +25,7 @@ import java.util.stream.IntStream;
 public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHolder> implements Parcelable {
     private List<String> dates = new ArrayList<>();
     private HashMap<String, List<String>> groups = new HashMap<>();
-    private List<String> items = Arrays.asList("Income ", "Expense ", "Interest ", "Tax ");
+    private List<String> items = Arrays.asList("Income", "Expense", "Interest", "Tax");
     private boolean isExpanded = false;
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -59,10 +59,12 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         parcel.writeMap(groups);
     }
 
-    public void addEntry(String strDate, List<Integer> numericInput) {
+    public void addEntry(String strDate, HashMap<String, Double> numericInput) {
         dates.add(strDate);
+        System.out.println(items.get(0));
+        System.out.println(numericInput.get(items.get(0)));
         groups.put(strDate, IntStream.range(0, items.size())
-        .mapToObj(i -> items.get(i)+numericInput.get(i))
+        .mapToObj(i -> items.get(i)+" "+numericInput.get(items.get(i)))
         .collect(Collectors.toList()));
     }
 

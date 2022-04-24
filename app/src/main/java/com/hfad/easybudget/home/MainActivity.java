@@ -16,6 +16,7 @@ import com.hfad.easybudget.R;
 import com.hfad.easybudget.results.ResultsActivity;
 import com.hfad.easybudget.input.InputActivity;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
                     if (mainIntent != null) {
                         String strDate =  (String)mainIntent.getExtras().get(MainActivity.EXTRA_DATE);
-                        List<Integer> numericInput = (List)mainIntent.getExtras().get(MainActivity.EXTRA_NUMERIC_INPUT);
-                        int initialBalance = (int)mainIntent.getExtras().get(MainActivity.EXTRA_INITIAL_BALANCE);
+                        HashMap<String, Double> numericInput = (HashMap)mainIntent.getExtras().get(MainActivity.EXTRA_NUMERIC_INPUT);
+                        double initialBalance = (int)mainIntent.getExtras().get(MainActivity.EXTRA_INITIAL_BALANCE);
 
                         if (!hasEntries) {
                             hasEntries = true;

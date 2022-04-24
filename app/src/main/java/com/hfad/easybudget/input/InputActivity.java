@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -15,9 +16,12 @@ import com.hfad.easybudget.R;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InputActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -43,22 +47,39 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
         SimpleDateFormat format = new SimpleDateFormat("dd MMMM yyyy");
         String strDate = format.format(calendar.getTime());
 
-        String initText = ((EditText) findViewById(R.id.input_edit_init)).getText().toString();
-        int initialBalance = initText.isEmpty() ? 0 : Integer.parseInt(initText);
+        final HashMap<String, Double> numericInput = new HashMap<>();
+        final ViewGroup rootView = (ViewGroup) findViewById(R.id.input_constraint_layout);
+        double initialBalance = 0.00;
 
-        String incomeText = ((EditText) findViewById(R.id.input_edit_income)).getText().toString();
-        int income = incomeText.isEmpty() ? 0 : Integer.parseInt(incomeText);
+        for (int i = 0; i < rootView.getChildCount(); i++) {
+            final View inputTextView = rootView.getChildAt(i);
 
-        String expenseText = ((EditText) findViewById(R.id.input_edit_expense)).getText().toString();
-        int expense = expenseText.isEmpty() ? 0 : Integer.parseInt(expenseText);
+            if (!(inputTextView instanceof EditText))
+                continue;
 
-        String interestText = ((EditText) findViewById(R.id.input_edit_interest)).getText().toString();
-        int interest = interestText.isEmpty() ? 0 : Integer.parseInt(interestText);
+            final String inputText = ((EditText) inputTextView).getText().toString();
 
-        String taxText = ((EditText) findViewById(R.id.input_edit_tax)).getText().toString();
-        int tax = taxText.isEmpty() ? 0 : Integer.parseInt(taxText);
+            switch (inputTextView.getId()) {
+                case R.id.input_edit_init:
+                    initialBalance = inputText.isEmpty() ? 0.00 : Double.parseDouble(inputText);
 
-        List<Integer> numericInput = Arrays.asList(income, expense, interest, tax);
+                case R.id.input_edit_income:
+                    numericInput.put("Income", inputText.isEmpty() ? 0.00 : Double.parseDouble(inputText));
+                    break;
+
+                case R.id.input_edit_expense:
+                    numericInput.put("Expense", inputText.isEmpty() ? 0.00 : Double.parseDouble(inputText));
+                    break;
+
+                case R.id.input_edit_interest:
+                    numericInput.put("Interest", inputText.isEmpty() ? 0.00 : Double.parseDouble(inputText));
+                    break;
+
+                case R.id.input_edit_tax:
+                    numericInput.put("Tax", inputText.isEmpty() ? 0.00 : Double.parseDouble(inputText));
+                    break;
+            }
+        }
 
         Intent mainIntent = new Intent();
         mainIntent.putExtra(MainActivity.EXTRA_DATE, strDate);
@@ -66,6 +87,7 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
         mainIntent.putExtra(MainActivity.EXTRA_INITIAL_BALANCE, initialBalance);
 
         setResult(Activity.RESULT_OK, mainIntent);
+
         finish();
     }
 }
