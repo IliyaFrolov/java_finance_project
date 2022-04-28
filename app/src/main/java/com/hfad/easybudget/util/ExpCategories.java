@@ -1,9 +1,10 @@
 package com.hfad.easybudget.util;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ExpCategories {
+public class ExpCategories implements Serializable {
     private Map<String, Double> catFlow = new HashMap<>();
     private static Map<String, Double> catTotals = new HashMap<>();
 

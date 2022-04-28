@@ -1,10 +1,13 @@
 package com.hfad.easybudget.util;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CashFlow implements Serializable {
+public class CashFlow implements Parcelable {
     private Map<String, Double> flow = new HashMap<>();
     private static Map<String, Double> totals = new HashMap<>(); 
     private ExpCategories categories;
@@ -21,6 +24,24 @@ public class CashFlow implements Serializable {
         this(income, categories.getExpense(), interest, incomeTax);
         this.categories = categories;
     }
+
+    protected CashFlow(Parcel in) {
+        in.readMap(flow, CashFlow.class.getClassLoader());
+        in.readMap(totals, CashFlow.class.getClassLoader());
+        in.readSerializable();
+    }
+
+    public static final Creator<CashFlow> CREATOR = new Creator<CashFlow>() {
+        @Override
+        public CashFlow createFromParcel(Parcel in) {
+            return new CashFlow(in);
+        }
+
+        @Override
+        public CashFlow[] newArray(int size) {
+            return new CashFlow[size];
+        }
+    };
 
     public double getInterestEarned(double prevBalance) {
         return flow.get("Interest") * prevBalance;
@@ -57,5 +78,17 @@ public class CashFlow implements Serializable {
 
     public Map<String, Double> getFlow() {
         return flow;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeMap(flow);
+        parcel.writeMap(CashFlow.totals);
+        parcel.writeSerializable(categories);
     }
 }

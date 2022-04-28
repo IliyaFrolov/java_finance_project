@@ -15,7 +15,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hfad.easybudget.R;
 import com.hfad.easybudget.results.ResultsActivity;
 import com.hfad.easybudget.input.InputActivity;
+import com.hfad.easybudget.util.CashFlow;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_DATE = "date";
     public static final String EXTRA_NUMERIC_INPUT = "numericInput";
     private boolean hasEntries = false;
+    private ArrayList<CashFlow> cashFlowList = new ArrayList<>();
 
     private ActivityResultLauncher<Intent> getResult = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -33,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
                     if (mainIntent != null) {
                         String strDate =  (String)mainIntent.getExtras().get(MainActivity.EXTRA_DATE);
                         HashMap<String, Double> numericInput = (HashMap)mainIntent.getExtras().get(MainActivity.EXTRA_NUMERIC_INPUT);
+                        cashFlowList.add(new CashFlow(
+                                numericInput.get("Income"),
+                                numericInput.get("Expense"),
+                                numericInput.get("Interest"),
+                                numericInput.get("Tax")
+                        ));
 
                         if (!hasEntries) {
                             hasEntries = true;
@@ -80,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("has_entries", hasEntries);
+        outState.putParcelableArrayList("cash_flow_list", cashFlowList);
     }
 
     @Override
