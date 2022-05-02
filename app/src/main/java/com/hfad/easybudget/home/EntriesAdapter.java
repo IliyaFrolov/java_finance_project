@@ -61,8 +61,6 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
 
     public void addEntry(String strDate, HashMap<String, Double> numericInput) {
         dates.add(strDate);
-        System.out.println(items.get(0));
-        System.out.println(numericInput.get(items.get(0)));
         groups.put(strDate, IntStream.range(0, items.size())
         .mapToObj(i -> items.get(i)+" "+numericInput.get(items.get(i)))
         .collect(Collectors.toList()));

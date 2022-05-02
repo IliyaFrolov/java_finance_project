@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hfad.easybudget.R;
@@ -69,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
         Button buttonCalculate = findViewById(R.id.button_calculate);
         buttonCalculate.setOnClickListener((View view) -> {
             Intent resultsIntent = new Intent(this, ResultsActivity.class);
+            TextView initBalanceText = findViewById(R.id.main_init_balance);
+            Double initBalance = Double.parseDouble(initBalanceText.getText().toString());
+            resultsIntent.putParcelableArrayListExtra(ResultsActivity.EXTRA_CASHFLOW, cashFlowList);
+            resultsIntent.putExtra(ResultsActivity.EXTRA_INIT_BALANCE, initBalance);
             startActivity(resultsIntent);
         });
 
