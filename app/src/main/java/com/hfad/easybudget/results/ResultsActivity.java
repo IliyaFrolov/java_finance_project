@@ -18,46 +18,48 @@ import com.hfad.easybudget.account.Account;
 import com.hfad.easybudget.util.CashFlow;
 import com.hfad.easybudget.util.Cycle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ResultsActivity extends AppCompatActivity {
     public final static String EXTRA_CASHFLOW = "cashflow";
     public final static String EXTRA_INIT_BALANCE = "init_balance";
+    private ArrayList<CashFlow> cashFlowList;
+    private Double initBalance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_results);
         Intent resultsIntent = getIntent();
 
         if (resultsIntent != null) {
-            List<CashFlow> cashFlowList = resultsIntent.getParcelableArrayListExtra(ResultsActivity.EXTRA_CASHFLOW);
-            Double initBalance = (Double)resultsIntent.getExtras().get(EXTRA_INIT_BALANCE);
-            Account account = Account.createAccount(initBalance, Cycle.MONTH, cashFlowList);
-            ResultsPagerAdapter pagerAdapter = new ResultsPagerAdapter(this, account);
-            setContentView(R.layout.activity_results);
-
-            ViewPager2 resultsPager = findViewById(R.id.pager_results);
-            resultsPager.setAdapter(pagerAdapter);
-
-            setSupportActionBar(findViewById(R.id.toolbar_results));
-            ActionBar actionBar = getSupportActionBar();
-            actionBar.setDisplayHomeAsUpEnabled(true);
-
-            TabLayout tabResults = findViewById(R.id.tab_results);
-            new TabLayoutMediator(tabResults, resultsPager, (tab, position) -> {
-                switch (position) {
-                    case 0:
-                        tab.setText("Total Summary");
-                        break;
-                    case 1:
-                        tab.setText("Cycle Summary");
-                        break;
-                    case 2:
-                        tab.setText("Averages Summary");
-                        break;
-                }
-            }).attach();
+            cashFlowList = resultsIntent.getParcelableArrayListExtra(ResultsActivity.EXTRA_CASHFLOW);
+            initBalance = (Double) resultsIntent.getExtras().get(EXTRA_INIT_BALANCE);
         }
+        ResultsPagerAdapter pagerAdapter = new ResultsPagerAdapter(this, cashFlowList, initBalance);
+
+        ViewPager2 resultsPager = findViewById(R.id.pager_results);
+        resultsPager.setAdapter(pagerAdapter);
+
+        setSupportActionBar(findViewById(R.id.toolbar_results));
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        TabLayout tabResults = findViewById(R.id.tab_results);
+        new TabLayoutMediator(tabResults, resultsPager, (tab, position) -> {
+            switch (position) {
+                case 0:
+                    tab.setText("Total Summary");
+                    break;
+                case 1:
+                    tab.setText("Cycle Summary");
+                    break;
+                case 2:
+                    tab.setText("Averages Summary");
+                    break;
+            }
+        }).attach();
     }
 }
 

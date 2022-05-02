@@ -2,4 +2,7 @@
 <resources>
     <dimen name="items_text_size" >25dp</dimen>
     <dimen name="header_text_size" >35dp</dimen>
+    <dimen name="padding">16dp</dimen>
+    <dimen name="card_view_corner_radius">7dp</dimen>
+    <dimen name="card_view_elevation">6dp</dimen>
 </resources>

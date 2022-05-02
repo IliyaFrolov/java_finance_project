@@ -35,15 +35,15 @@ public class ResultsRecyclerAdapter extends RecyclerView.Adapter<ResultsRecycler
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final List<Map<String, Double>> summaryLog = account.getSummaryLog();
 
-        holder.initBalance.setText("Initial Balance" + summaryLog.get(position).get("Previous balance"));
-        holder.income.setText("Income" + summaryLog.get(position).get("Income"));
-        holder.expense.setText("Expense" + summaryLog.get(position).get("Expense"));
-        holder.interest.setText("Interest" + summaryLog.get(position).get("Interest"));
-        holder.tax.setText("Income tax" + summaryLog.get(position).get("Income tax"));
-        holder.interestEarned.setText("Interest Earned" + summaryLog.get(position).get("Interest earned"));
-        holder.taxDeducted.setText("Tax Deducted" + summaryLog.get(position).get("Tax deducted"));
-        holder.profit.setText("Profit" + summaryLog.get(position).get("Profit"));
-        holder.balance.setText("Balance" + summaryLog.get(position).get("Balance"));
+        holder.initBalance.setText("Initial Balance " + summaryLog.get(position).get("Previous balance"));
+        holder.income.setText("Income " + summaryLog.get(position).get("Income"));
+        holder.expense.setText("Expense " + summaryLog.get(position).get("Expense"));
+        holder.interest.setText("Interest " + summaryLog.get(position).get("Interest"));
+        holder.tax.setText("Income tax " + summaryLog.get(position).get("Income tax"));
+        holder.interestEarned.setText("Interest Earned " + summaryLog.get(position).get("Interest earned"));
+        holder.taxDeducted.setText("Tax Deducted " + summaryLog.get(position).get("Tax deducted"));
+        holder.profit.setText("Profit " + summaryLog.get(position).get("Profit"));
+        holder.balance.setText("Balance " + summaryLog.get(position).get("Balance"));
     }
 
     @Override

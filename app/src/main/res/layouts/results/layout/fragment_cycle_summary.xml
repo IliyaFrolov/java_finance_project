@@ -4,4 +4,6 @@
     android:id="@+id/results_cycle_recycler"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/padding"
+    android:scrollbars="vertical"
     tools:context=".results.CycleSummaryFragment"/>

@@ -6,13 +6,23 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.hfad.easybudget.account.Account;
+import com.hfad.easybudget.util.CashFlow;
+
+import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ResultsPagerAdapter extends FragmentStateAdapter {
-    private final Account account;
+    private final ArrayList<CashFlow> cashFlowList;
+    private final double initBalance;
 
-    public ResultsPagerAdapter(@NonNull FragmentActivity fragmentActivity, final Account account) {
+    public ResultsPagerAdapter(
+            @NonNull FragmentActivity fragmentActivity,
+            final ArrayList<CashFlow> cashFlowList,
+            final double initBalance) {
         super(fragmentActivity);
-        this.account = account;
+        this.cashFlowList = cashFlowList;
+        this.initBalance = initBalance;
+
     }
 
     @NonNull
@@ -23,7 +33,7 @@ public class ResultsPagerAdapter extends FragmentStateAdapter {
                 return new TotalSummaryFragment();
 
             case 1:
-                return new CycleSummaryFragment(account);
+                return new CycleSummaryFragment(cashFlowList, initBalance);
 
             case 2:
                 return new AveragesSummaryFragment();
