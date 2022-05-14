@@ -5,20 +5,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.hfad.easybudget.account.Account;
 import com.hfad.easybudget.util.CashFlow;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class ResultsPagerAdapter extends FragmentStateAdapter {
-    private final ArrayList<CashFlow> cashFlowList;
-    private final double initBalance;
+    private ArrayList<CashFlow> cashFlowList;
+    private double initBalance;
 
-    public ResultsPagerAdapter(
-            @NonNull FragmentActivity fragmentActivity,
-            final ArrayList<CashFlow> cashFlowList,
-            final double initBalance) {
+    public ResultsPagerAdapter(FragmentActivity fragmentActivity,
+                               ArrayList<CashFlow> cashFlowList,
+                               double initBalance) {
         super(fragmentActivity);
         this.cashFlowList = cashFlowList;
         this.initBalance = initBalance;
