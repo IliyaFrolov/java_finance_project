@@ -11,5 +11,9 @@
         <!-- Customize your theme here. -->
         <item name="backgroundTint">@color/colorSecondary</item>
         <item name="colorAccent">@color/colorSecondary</item>
+        <item name="editTextStyle">@style/editTextStyle</item>
+    </style>
+    <style name="editTextStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
     </style>
 </resources>

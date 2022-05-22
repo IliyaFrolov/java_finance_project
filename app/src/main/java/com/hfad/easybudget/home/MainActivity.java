@@ -74,9 +74,8 @@ public class MainActivity extends AppCompatActivity {
             Fragment mainFrag = getSupportFragmentManager().findFragmentByTag("main_fragment");
 
             if (mainFrag == null) {
-
                 Intent resultsIntent = new Intent(this, ResultsActivity.class);
-                TextView initBalanceText = findViewById(R.id.main_init_balance);
+                TextView initBalanceText = findViewById(R.id.main_editText_init_balance);
                 Double initBalance = Double.parseDouble(initBalanceText.getText().toString());
                 resultsIntent.putParcelableArrayListExtra(ResultsActivity.EXTRA_CASHFLOW, cashFlowList);
                 resultsIntent.putExtra(ResultsActivity.EXTRA_INIT_BALANCE, initBalance);
