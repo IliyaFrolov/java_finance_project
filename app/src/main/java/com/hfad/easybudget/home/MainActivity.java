@@ -4,6 +4,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hfad.easybudget.R;
@@ -69,12 +71,19 @@ public class MainActivity extends AppCompatActivity {
 
         Button buttonCalculate = findViewById(R.id.button_calculate);
         buttonCalculate.setOnClickListener((View view) -> {
-            Intent resultsIntent = new Intent(this, ResultsActivity.class);
-            TextView initBalanceText = findViewById(R.id.main_init_balance);
-            Double initBalance = Double.parseDouble(initBalanceText.getText().toString());
-            resultsIntent.putParcelableArrayListExtra(ResultsActivity.EXTRA_CASHFLOW, cashFlowList);
-            resultsIntent.putExtra(ResultsActivity.EXTRA_INIT_BALANCE, initBalance);
-            startActivity(resultsIntent);
+            Fragment mainFrag = getSupportFragmentManager().findFragmentByTag("main_fragment");
+
+            if (mainFrag == null) {
+
+                Intent resultsIntent = new Intent(this, ResultsActivity.class);
+                TextView initBalanceText = findViewById(R.id.main_init_balance);
+                Double initBalance = Double.parseDouble(initBalanceText.getText().toString());
+                resultsIntent.putParcelableArrayListExtra(ResultsActivity.EXTRA_CASHFLOW, cashFlowList);
+                resultsIntent.putExtra(ResultsActivity.EXTRA_INIT_BALANCE, initBalance);
+                startActivity(resultsIntent);
+            } else {
+                Toast.makeText(this, "Add entries first!", Toast.LENGTH_LONG).show();
+            }
         });
 
         FloatingActionButton fab = findViewById(R.id.fab_main);
@@ -85,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().setReorderingAllowed(true)
-                    .add(R.id.main_fragment_container, MainFragment.class, null).commit();
+                    .add(R.id.main_fragment_container, MainFragment.class, null, "main_fragment").commit();
         } else {
             hasEntries = savedInstanceState.getBoolean("has_entries");
         }
