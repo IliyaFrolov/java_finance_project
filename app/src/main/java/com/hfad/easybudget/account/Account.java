@@ -1,5 +1,8 @@
 package com.hfad.easybudget.account;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +12,7 @@ import com.hfad.easybudget.util.CashFlow;
 import com.hfad.easybudget.util.Cycle;
 import com.hfad.easybudget.util.ExpCategories;
 
-public class Account { 
+public class Account implements Parcelable {
     private Balance balance;
     private List<CashFlow> cashFlowList;
     private int cycles;
@@ -22,6 +25,25 @@ public class Account {
         this.cashFlowList = cashFlowList;
         this.cycles = cycles;
     }
+
+    protected Account(Parcel in) {
+        in.readSerializable();
+        in.readList(cashFlowList, Account.class.getClassLoader());
+        cycles = in.readInt();
+        in.readList(summaryLog, Account.class.getClassLoader());
+    }
+
+    public static final Creator<Account> CREATOR = new Creator<Account>() {
+        @Override
+        public Account createFromParcel(Parcel in) {
+            return new Account(in);
+        }
+
+        @Override
+        public Account[] newArray(int size) {
+            return new Account[size];
+        }
+    };
 
     public static Account createAccount(double initBalance, Cycle cycleType, List<CashFlow> cashFlowList, int cycles) {
         Account instance = new Account(new Balance(initBalance), cycleType, cashFlowList, cycles);
@@ -112,5 +134,19 @@ public class Account {
         Cycle.DAY.calcAverages(CashFlow.getTotals(), dayCycles, ExpCategories.getCatTotals());
         Cycle.WEEK.calcAverages(CashFlow.getTotals(), weekCycles, ExpCategories.getCatTotals());
         Cycle.MONTH.calcAverages(CashFlow.getTotals(), monthCycles, ExpCategories.getCatTotals());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeSerializable(balance);
+        parcel.writeList(cashFlowList);
+        parcel.writeInt(cycles);
+        parcel.writeSerializable(cycleType);
+        parcel.writeList(summaryLog);
     }
 }

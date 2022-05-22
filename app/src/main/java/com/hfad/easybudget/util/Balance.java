@@ -1,6 +1,9 @@
 package com.hfad.easybudget.util;
 
-public class Balance {
+import java.io.Serializable;
+import java.nio.file.SecureDirectoryStream;
+
+public class Balance implements Serializable {
     private double initBalance;
     private double prevBalance;
     private double nextBalance;

@@ -22,17 +22,15 @@ import com.hfad.easybudget.util.Cycle;
 import java.util.ArrayList;
 
 public class CycleSummaryFragment extends Fragment {
-    private ArrayList<CashFlow> cashFlowList;
-    private double initBalance;
+    private Account account;
 
     public CycleSummaryFragment() {
         super();
     }
 
-    public CycleSummaryFragment(final ArrayList<CashFlow> cashFlowList, final double initBalance) {
+    public CycleSummaryFragment(Account account) {
         super();
-        this.cashFlowList = cashFlowList;
-        this.initBalance = initBalance;
+        this.account = account;
     }
 
     @Override
@@ -40,16 +38,12 @@ public class CycleSummaryFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
-            cashFlowList = savedInstanceState.getParcelableArrayList(ResultsActivity.EXTRA_CASHFLOW);
-            initBalance = savedInstanceState.getDouble(ResultsActivity.EXTRA_INIT_BALANCE);
+            account = savedInstanceState.getParcelable("account");
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        Account account = Account.createAccount(initBalance, Cycle.MONTH, cashFlowList);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RecyclerView recyclerView = (RecyclerView) inflater
                 .inflate(R.layout.fragment_cycle_summary, container, false);
         recyclerView.setAdapter(new ResultsRecyclerAdapter(account));
@@ -61,7 +55,6 @@ public class CycleSummaryFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(ResultsActivity.EXTRA_CASHFLOW, cashFlowList);
-        outState.putDouble(ResultsActivity.EXTRA_INIT_BALANCE, initBalance);
+        outState.putParcelable("account", account);
     }
 }

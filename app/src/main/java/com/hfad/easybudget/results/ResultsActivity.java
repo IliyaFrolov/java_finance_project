@@ -15,12 +15,12 @@ import com.hfad.easybudget.util.CashFlow;
 import com.hfad.easybudget.util.Cycle;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ResultsActivity extends AppCompatActivity {
     public final static String EXTRA_CASHFLOW = "cashflow";
     public final static String EXTRA_INIT_BALANCE = "init_balance";
-    private ArrayList<CashFlow> cashFlowList;
-    private Double initBalance;
+    private Account account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +29,12 @@ public class ResultsActivity extends AppCompatActivity {
         Intent resultsIntent = getIntent();
 
         if (resultsIntent != null) {
-            cashFlowList = resultsIntent.getParcelableArrayListExtra(ResultsActivity.EXTRA_CASHFLOW);
-            initBalance = (Double) resultsIntent.getExtras().get(EXTRA_INIT_BALANCE);
+            final List<CashFlow> cashFlowList = resultsIntent.getParcelableArrayListExtra(ResultsActivity.EXTRA_CASHFLOW);
+            final double initBalance = (Double) resultsIntent.getExtras().get(EXTRA_INIT_BALANCE);
+            account = Account.createAccount(initBalance, Cycle.MONTH, cashFlowList);
         }
 
-        Account account = Account.createAccount(initBalance, Cycle.MONTH, cashFlowList);
-        ResultsPagerAdapter pagerAdapter = new ResultsPagerAdapter(this, cashFlowList, initBalance);
+        ResultsPagerAdapter pagerAdapter = new ResultsPagerAdapter(this, account);
 
         ViewPager2 resultsPager = findViewById(R.id.pager_results);
         resultsPager.setAdapter(pagerAdapter);
