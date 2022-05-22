@@ -12,9 +12,8 @@
         android:id="@+id/toolbar_results"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:titleTextColor="@android:color/white"/>
+        android:backgroundTint="@color/colorOnPrimary"
+        android:minHeight="?attr/actionBarSize" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_results"
