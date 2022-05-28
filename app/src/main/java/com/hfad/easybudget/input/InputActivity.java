@@ -9,22 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TextView;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hfad.easybudget.home.MainActivity;
 import com.hfad.easybudget.R;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class InputActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -32,6 +25,7 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input);
+        final ViewGroup rootView = (ViewGroup) findViewById(R.id.input_constraint_layout);
 
         Button inputButton = findViewById(R.id.input_button);
         inputButton.setOnClickListener(this);
@@ -60,14 +54,15 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
                 continue;
 
             final String inputText = ((TextInputLayout) inputTextView).getEditText().getText().toString();
+            final String value = inputText.replaceAll("£", "");
 
             switch (inputTextView.getId()) {
                 case R.id.input_edit_income:
-                    numericInput.put("Income", inputText.isEmpty() ? 0.00 : Double.parseDouble(inputText));
+                    numericInput.put("Income", inputText.isEmpty() ? 0.00 : Double.parseDouble(value));
                     break;
 
                 case R.id.input_edit_expense:
-                    numericInput.put("Expense", inputText.isEmpty() ? 0.00 : Double.parseDouble(inputText));
+                    numericInput.put("Expense", inputText.isEmpty() ? 0.00 : Double.parseDouble(value));
                     break;
 
                 case R.id.input_edit_interest:
