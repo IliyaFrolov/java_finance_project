@@ -10,7 +10,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.hfad.easybudget.home.MainActivity;
 import com.hfad.easybudget.R;
 
@@ -53,10 +56,10 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
         for (int i = 0; i < rootView.getChildCount(); i++) {
             final View inputTextView = rootView.getChildAt(i);
 
-            if (!(inputTextView instanceof EditText))
+            if (!(inputTextView instanceof TextInputLayout))
                 continue;
 
-            final String inputText = ((EditText) inputTextView).getText().toString();
+            final String inputText = ((TextInputLayout) inputTextView).getEditText().getText().toString();
 
             switch (inputTextView.getId()) {
                 case R.id.input_edit_income:
@@ -68,11 +71,11 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
                     break;
 
                 case R.id.input_edit_interest:
-                    numericInput.put("Interest", inputText.isEmpty() ? 0.00 : Double.parseDouble(inputText));
+                    numericInput.put("Interest", inputText.isEmpty() ? 0.00 : Double.parseDouble(inputText)/100);
                     break;
 
                 case R.id.input_edit_tax:
-                    numericInput.put("Tax", inputText.isEmpty() ? 0.00 : Double.parseDouble(inputText));
+                    numericInput.put("Tax", inputText.isEmpty() ? 0.00 : Double.parseDouble(inputText)/100);
                     break;
             }
         }

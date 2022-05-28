@@ -48,9 +48,4 @@ public class EntriesFragment extends Fragment {
         super.onSaveInstanceState(outState);
         outState.putParcelable("entries_adapter", entriesAdapter);
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
 }

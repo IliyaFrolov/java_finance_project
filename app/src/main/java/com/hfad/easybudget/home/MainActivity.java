@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 import com.hfad.easybudget.R;
 import com.hfad.easybudget.results.ResultsActivity;
 import com.hfad.easybudget.input.InputActivity;
@@ -46,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
                                 numericInput.get("Interest"),
                                 numericInput.get("Tax")
                         ));
-
                         if (!hasEntries) {
                             hasEntries = true;
                             EntriesFragment entriesFragment = new EntriesFragment();
@@ -75,8 +75,9 @@ public class MainActivity extends AppCompatActivity {
 
             if (mainFrag == null) {
                 Intent resultsIntent = new Intent(this, ResultsActivity.class);
-                TextView initBalanceText = findViewById(R.id.main_editText_init_balance);
-                Double initBalance = Double.parseDouble(initBalanceText.getText().toString());
+                TextInputLayout initBalanceText = findViewById(R.id.main_editText_init_balance);
+                String initBalanceString = initBalanceText.getEditText().getText().toString();
+                Double initBalance = initBalanceString.isEmpty() ? 0.00 : Double.parseDouble(initBalanceString);
                 resultsIntent.putParcelableArrayListExtra(ResultsActivity.EXTRA_CASHFLOW, cashFlowList);
                 resultsIntent.putExtra(ResultsActivity.EXTRA_INIT_BALANCE, initBalance);
                 startActivity(resultsIntent);
@@ -104,10 +105,5 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putBoolean("has_entries", hasEntries);
         outState.putParcelableArrayList("cash_flow_list", cashFlowList);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 }

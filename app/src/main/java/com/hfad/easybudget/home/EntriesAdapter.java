@@ -15,16 +15,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hfad.easybudget.R;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHolder> implements Parcelable {
     private List<String> dates = new ArrayList<>();
-    private HashMap<String, List<String>> groups = new HashMap<>();
+    private List<HashMap<String, Double>> numericListMap = new ArrayList<>();
     private List<String> items = Arrays.asList("Income", "Expense", "Interest", "Tax");
     private boolean isExpanded = false;
 
@@ -45,7 +47,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
     private EntriesAdapter(Parcel in) {
         super();
         in.readList(dates, EntriesAdapter.class.getClassLoader());
-        in.readMap(groups, EntriesAdapter.class.getClassLoader());
+        in.readList(numericListMap, EntriesAdapter.class.getClassLoader());
     }
 
     @Override
@@ -56,14 +58,12 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeList(dates);
-        parcel.writeMap(groups);
+        parcel.writeList(numericListMap);
     }
 
     public void addEntry(String strDate, HashMap<String, Double> numericInput) {
         dates.add(strDate);
-        groups.put(strDate, IntStream.range(0, items.size())
-        .mapToObj(i -> items.get(i)+" "+numericInput.get(items.get(i)))
-        .collect(Collectors.toList()));
+        numericListMap.add(numericInput);
     }
 
     public int getEntryPos() {
@@ -80,11 +80,20 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Locale local = Locale.UK;
+        NumberFormat fmtCurrency = NumberFormat.getCurrencyInstance(local);
+        NumberFormat fmtPercent = NumberFormat.getPercentInstance();
+
+        String income = fmtCurrency.format(numericListMap.get(position).get(items.get(0)));
+        String expense = fmtCurrency.format(numericListMap.get(position).get(items.get(1)));
+        String interest = fmtPercent.format(numericListMap.get(position).get(items.get(2)));
+        String tax = fmtPercent.format(numericListMap.get(position).get(items.get(3)));
+
         holder.headerText.setText(dates.get(position));
-        holder.incomeText.setText(groups.get(dates.get(position)).get(0));
-        holder.expenseText.setText(groups.get(dates.get(position)).get(1));
-        holder.interestText.setText(groups.get(dates.get(position)).get(2));
-        holder.taxText.setText(groups.get(dates.get(position)).get(3));
+        holder.incomeText.setText(items.get(0) + " " + income);
+        holder.expenseText.setText(items.get(1) + " "  + expense);
+        holder.interestText.setText(items.get(2) + " "  + interest);
+        holder.taxText.setText(items.get(3) + " "  + tax);
         holder.expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
 
         holder.headerText.setOnClickListener(new View.OnClickListener() {
