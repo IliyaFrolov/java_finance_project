@@ -9,10 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hfad.easybudget.home.MainActivity;
 import com.hfad.easybudget.R;
+import com.hfad.easybudget.util.PercentageTextWatcher;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -26,6 +29,12 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input);
         final ViewGroup rootView = (ViewGroup) findViewById(R.id.input_constraint_layout);
+
+        EditText interestText = ((TextInputLayout) findViewById(R.id.input_edit_interest)).getEditText();
+        EditText taxText = ((TextInputLayout) findViewById(R.id.input_edit_tax)).getEditText();
+
+        interestText.addTextChangedListener(new PercentageTextWatcher(interestText));
+        taxText.addTextChangedListener(new PercentageTextWatcher(taxText));
 
         Button inputButton = findViewById(R.id.input_button);
         inputButton.setOnClickListener(this);

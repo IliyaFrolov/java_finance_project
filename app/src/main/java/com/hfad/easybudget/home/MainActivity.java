@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent resultsIntent = new Intent(this, ResultsActivity.class);
                 TextInputLayout initBalanceText = findViewById(R.id.main_editText_init_balance);
                 String initBalanceString = initBalanceText.getEditText().getText().toString();
-                Double initBalance = initBalanceString.isEmpty() ? 0.00 : Double.parseDouble(initBalanceString);
+                Double initBalance = initBalanceString.isEmpty() ? 0.00 : Double.parseDouble(initBalanceString.replaceAll("[£,]", ""));
                 resultsIntent.putParcelableArrayListExtra(ResultsActivity.EXTRA_CASHFLOW, cashFlowList);
                 resultsIntent.putExtra(ResultsActivity.EXTRA_INIT_BALANCE, initBalance);
                 startActivity(resultsIntent);
