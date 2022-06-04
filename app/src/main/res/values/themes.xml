@@ -11,9 +11,12 @@
         <!-- Customize your theme here. -->
         <item name="backgroundTint">@color/colorSecondary</item>
         <item name="colorAccent">@color/colorSecondary</item>
-        <item name="editTextStyle">@style/editTextStyle</item>
+        <item name="android:editTextStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
+        <item name="cardViewStyle">@style/myCardViewStyle</item>
     </style>
-    <style name="editTextStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
+    <style name="myCardViewStyle" parent="@style/Widget.Material3.CardView.Elevated" >
+        <item name="cardCornerRadius">@dimen/card_view_corner_radius</item>
+        <item name="cardElevation">@dimen/card_view_elevation</item>
+        <item name="cardUseCompatPadding">true</item>
     </style>
 </resources>

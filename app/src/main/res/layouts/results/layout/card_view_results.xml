@@ -3,10 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/results_cycle_card_view"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:cardCornerRadius="@dimen/card_view_corner_radius"
-    app:cardElevation="@dimen/card_view_elevation"
-    app:cardUseCompatPadding="true">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"

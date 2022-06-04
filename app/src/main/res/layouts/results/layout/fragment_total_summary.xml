@@ -10,27 +10,26 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:elevation="10dp"
-        app:cardCornerRadius="10dp">
+        android:layout_height="wrap_content" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="@dimen/padding">
 
             <TextView
+                style="@style/total_summary_text_view_style"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
                 android:text="Profit" />
 
             <TextView
+                style="@style/total_summary_text_view_style"
                 android:id="@+id/profit_total"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="0" />
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
@@ -39,11 +38,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="20dp"
-        android:elevation="10dp"
-        app:cardCornerRadius="10dp">
+        android:layout_marginTop="15dp" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,14 +79,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
-                        android:text="income" />
+                        android:text="Income" />
 
                     <TextView
                         android:id="@+id/income_percent_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:text="0%" />
+                        android:paddingLeft="10dp" />
 
                 </LinearLayout>
 
@@ -111,14 +105,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
-                        android:text="interest earned" />
+                        android:text="Interest Earned" />
 
                     <TextView
                         android:id="@+id/intEarned_percent_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:text="0%" />
+                        android:paddingLeft="10dp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -131,9 +124,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        android:elevation="10dp"
-        app:cardCornerRadius="10dp">
+        android:layout_marginBottom="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -170,7 +161,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="income"
+                    android:text="Income"
                     android:textSize="18sp" />
 
                 <TextView
@@ -204,7 +195,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="interest earned"
+                    android:text="Interest Earned"
                     android:textSize="18sp" />
 
                 <TextView

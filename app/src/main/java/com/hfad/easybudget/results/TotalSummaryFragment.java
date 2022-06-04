@@ -16,6 +16,9 @@ import com.hfad.easybudget.util.CashFlow;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class TotalSummaryFragment extends Fragment {
     private double profit = CashFlow.getTotals().get("Profit");
     private double income = CashFlow.getTotals().get("Income");
@@ -46,23 +49,27 @@ public class TotalSummaryFragment extends Fragment {
     }
 
     private void setData() {
-        final double totalIncome = interestEarned+income;
+        Locale local = Locale.UK;
+        NumberFormat fmtCurrency = NumberFormat.getCurrencyInstance(local);
+        NumberFormat fmtPercent = NumberFormat.getPercentInstance();
 
-        profitText.setText(Double.toString(profit));
-        incPerceText.setText(Double.toString(income/totalIncome));
-        intEarnedPercText.setText(Double.toString(interestEarned/totalIncome));
-        incValText.setText(Double.toString(income));
-        intEarnedValText.setText(Double.toString(interestEarned));
+        final double totalIncome = interestEarned + income;
+
+        profitText.setText(fmtCurrency.format(profit));
+        incPerceText.setText(fmtPercent.format((totalIncome == 0) ? 0: income / totalIncome ));
+        intEarnedPercText.setText(fmtPercent.format((totalIncome == 0) ? 0 : interestEarned / totalIncome));
+        incValText.setText(fmtCurrency.format(income));
+        intEarnedValText.setText(fmtCurrency.format(interestEarned));
 
         incomeChart.addPieSlice(new PieModel(
-                        "Income",
-                        Float.parseFloat(incValText.getText().toString()),
-                        Color.parseColor("#FFA726")));
+                "Income",
+                (float) income,
+                Color.parseColor("#FFA726")));
 
         incomeChart.addPieSlice(new PieModel(
-                        "Interest Earned",
-                        Float.parseFloat(intEarnedValText.getText().toString()),
-                        Color.parseColor("#EF5359")));
+                "Interest Earned",
+                (float) interestEarned,
+                Color.parseColor("#EF5359")));
 
         incomeChart.startAnimation();
     }

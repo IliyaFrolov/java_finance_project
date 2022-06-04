@@ -63,7 +63,7 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
                 continue;
 
             final String inputText = ((TextInputLayout) inputTextView).getEditText().getText().toString();
-            final String value = inputText.replaceAll("£", "");
+            final String value = inputText.replaceAll("[£,]", "");
 
             switch (inputTextView.getId()) {
                 case R.id.input_edit_income:
