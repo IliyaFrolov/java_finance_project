@@ -13,8 +13,10 @@ import com.hfad.easybudget.R;
 import com.hfad.easybudget.account.Account;
 import com.hfad.easybudget.util.CashFlow;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class ResultsRecyclerAdapter extends RecyclerView.Adapter<ResultsRecyclerAdapter.ViewHolder> {
@@ -33,17 +35,21 @@ public class ResultsRecyclerAdapter extends RecyclerView.Adapter<ResultsRecycler
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Locale local = Locale.UK;
+        NumberFormat fmtCurrency = NumberFormat.getCurrencyInstance(local);
+        NumberFormat fmtPercent = NumberFormat.getPercentInstance();
+
         final List<Map<String, Double>> summaryLog = account.getSummaryLog();
 
-        holder.initBalance.setText("Initial Balance " + summaryLog.get(position).get("Previous balance"));
-        holder.income.setText("Income " + summaryLog.get(position).get("Income"));
-        holder.expense.setText("Expense " + summaryLog.get(position).get("Expense"));
-        holder.interest.setText("Interest " + summaryLog.get(position).get("Interest"));
-        holder.tax.setText("Income tax " + summaryLog.get(position).get("Income tax"));
-        holder.interestEarned.setText("Interest Earned " + summaryLog.get(position).get("Interest earned"));
-        holder.taxDeducted.setText("Tax Deducted " + summaryLog.get(position).get("Tax deducted"));
-        holder.profit.setText("Profit " + summaryLog.get(position).get("Profit"));
-        holder.balance.setText("Balance " + summaryLog.get(position).get("Balance"));
+        holder.initBalance.setText("Initial Balance " + fmtCurrency.format(summaryLog.get(position).get("Previous balance")));
+        holder.income.setText("Income " + fmtCurrency.format(summaryLog.get(position).get("Income")));
+        holder.expense.setText("Expense " + fmtCurrency.format(summaryLog.get(position).get("Expense")));
+        holder.interest.setText("Interest " + fmtPercent.format(summaryLog.get(position).get("Interest")));
+        holder.tax.setText("Income Tax " + fmtPercent.format(summaryLog.get(position).get("Income tax")));
+        holder.interestEarned.setText("Interest Earned " + fmtCurrency.format(summaryLog.get(position).get("Interest earned")));
+        holder.taxDeducted.setText("Tax Deducted " + fmtCurrency.format(summaryLog.get(position).get("Tax deducted")));
+        holder.profit.setText("Profit " + fmtCurrency.format(summaryLog.get(position).get("Profit")));
+        holder.balance.setText("Balance " + fmtCurrency.format(summaryLog.get(position).get("Balance")));
     }
 
     @Override

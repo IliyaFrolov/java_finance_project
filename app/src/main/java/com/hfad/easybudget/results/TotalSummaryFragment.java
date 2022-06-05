@@ -23,10 +23,11 @@ public class TotalSummaryFragment extends Fragment {
     private double profit = CashFlow.getTotals().get("Profit");
     private double income = CashFlow.getTotals().get("Income");
     private double interestEarned = CashFlow.getTotals().get("Interest earned");
-    private double tax = CashFlow.getTotals().get("Income tax");
+    private double expense = CashFlow.getTotals().get("Expense");
     private double taxDeducted = CashFlow.getTotals().get("Tax deducted");
-    private PieChart incomeChart;
-    private TextView profitText, incPerceText, intEarnedPercText, incValText, intEarnedValText;
+    private PieChart incomeChart, expenseChart;
+    private TextView profitText, incPerceText, intEarnedPercText, incValText, intEarnedValText,
+            expPerceText, taxDeductedPerceText, expValText, taxDeductedValText;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,6 +45,12 @@ public class TotalSummaryFragment extends Fragment {
         intEarnedPercText = rootView.findViewById(R.id.intEarned_percent_total);
         incValText = rootView.findViewById(R.id.income_value_total);
         intEarnedValText = rootView.findViewById(R.id.intEarned_value_total);
+
+        expenseChart = rootView.findViewById(R.id.pie_chart_expense_total);
+        expPerceText = rootView.findViewById(R.id.expense_percent_total);
+        taxDeductedPerceText = rootView.findViewById(R.id.taxDeducted_percent_total);
+        expValText = rootView.findViewById(R.id.expense_value_total);
+        taxDeductedValText = rootView.findViewById(R.id.taxDeducted_value_total);
         setData();
         return rootView;
     }
@@ -54,12 +61,18 @@ public class TotalSummaryFragment extends Fragment {
         NumberFormat fmtPercent = NumberFormat.getPercentInstance();
 
         final double totalIncome = interestEarned + income;
+        final double totalExpense = taxDeducted + expense;
 
         profitText.setText(fmtCurrency.format(profit));
         incPerceText.setText(fmtPercent.format((totalIncome == 0) ? 0: income / totalIncome ));
         intEarnedPercText.setText(fmtPercent.format((totalIncome == 0) ? 0 : interestEarned / totalIncome));
         incValText.setText(fmtCurrency.format(income));
         intEarnedValText.setText(fmtCurrency.format(interestEarned));
+
+        expPerceText.setText(fmtPercent.format((totalExpense == 0) ? 0: expense / totalExpense ));
+        taxDeductedPerceText.setText(fmtPercent.format((totalExpense == 0) ? 0 : taxDeducted / totalExpense));
+        expValText.setText(fmtCurrency.format(expense));
+        taxDeductedValText.setText(fmtCurrency.format(taxDeducted));
 
         incomeChart.addPieSlice(new PieModel(
                 "Income",
@@ -71,6 +84,18 @@ public class TotalSummaryFragment extends Fragment {
                 (float) interestEarned,
                 Color.parseColor("#EF5359")));
 
+
+        expenseChart.addPieSlice(new PieModel(
+                "Expense",
+                (float) expense,
+                Color.parseColor("#66BB6A")));
+
+        expenseChart.addPieSlice(new PieModel(
+                "Tax Deducted",
+                (float) taxDeducted,
+                Color.parseColor("#29B6F6")));
+
         incomeChart.startAnimation();
+        expenseChart.startAnimation();
     }
 }
