@@ -99,7 +99,11 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         holder.headerText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isExpanded = !isExpanded;
+                if (holder.expandableLayout.getVisibility() == View.GONE) {
+                    isExpanded = true;
+                } else {
+                    isExpanded = false;
+                }
                 notifyItemChanged(position);
             }
         });
