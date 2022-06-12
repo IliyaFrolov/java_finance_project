@@ -34,7 +34,6 @@ public class EntriesFragment extends Fragment {
                 .inflate(R.layout.fragment_entries, container, false);
         recyclerView.setAdapter(entriesAdapter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return recyclerView;
     }
 

@@ -136,6 +136,10 @@ public class Account implements Parcelable {
         Cycle.MONTH.calcAverages(CashFlow.getTotals(), monthCycles, ExpCategories.getCatTotals());
     }
 
+    public void close() {
+        CashFlow.close();
+    }
+
     @Override
     public int describeContents() {
         return 0;

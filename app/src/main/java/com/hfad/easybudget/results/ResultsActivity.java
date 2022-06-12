@@ -1,5 +1,6 @@
 package com.hfad.easybudget.results;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
@@ -60,6 +61,12 @@ public class ResultsActivity extends AppCompatActivity {
                     break;
             }
         }).attach();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        account.close();
     }
 }
 

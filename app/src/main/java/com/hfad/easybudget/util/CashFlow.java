@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class CashFlow implements Parcelable {
     private Map<String, Double> flow = new HashMap<>();
-    private static Map<String, Double> totals = new HashMap<>(); 
+    private static Map<String, Double> totals = new HashMap<>();
     private ExpCategories categories;
 
     public CashFlow(double income, double expense, double interest, double incomeTax) {
@@ -78,6 +78,10 @@ public class CashFlow implements Parcelable {
 
     public Map<String, Double> getFlow() {
         return flow;
+    }
+
+    public static void close() {
+        CashFlow.totals.remove("Profit");
     }
 
     @Override
