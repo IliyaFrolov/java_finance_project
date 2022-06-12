@@ -19,29 +19,6 @@ public class ExpCategories implements Serializable {
         catFlow.entrySet().stream().forEach(entry -> ExpCategories.catTotals.merge(entry.getKey(), entry.getValue(), Double::sum));
     }
 
-    @Override
-    public String toString() {
-        String breakdown = 
-        "Category Breakdown:\n"
-        + "Groceries - %.2f\n"
-        + "Eating out - %.2f\n"
-        + "Memberships - %.2f\n"
-        + "Bills - %.2f\n"
-        + "Travelling - %.2f\n"
-        + "Shopping - %.2f\n"
-        + "Other - %.2f\n";
-
-        return String.format(breakdown, 
-            catFlow.get("Groceries"),
-            catFlow.get("Eating out"),
-            catFlow.get("Memberships"),
-            catFlow.get("Bills"),
-            catFlow.get("Travelling"),
-            catFlow.get("Shopping"),
-            catFlow.get("Other")
-        );
-    }
-
     public double getExpense() {
         return catFlow.values().stream().mapToDouble(Double::doubleValue).sum();
     }
@@ -49,27 +26,4 @@ public class ExpCategories implements Serializable {
     public static Map<String, Double> getCatTotals() {
         return catTotals;
     }
-
-    public static String getSummary() {
-        String breakdown = 
-        "Category Summary Breakdown:\n"
-        + "Total Groceries - %.2f\n"
-        + "Total Eating out - %.2f\n"
-        + "Total Memberships - %.2f\n"
-        + "Total Bills - %.2f\n"
-        + "Total Travelling - %.2f\n"
-        + "Total Shopping - %.2f\n"
-        + "Total Other - %.2f\n";
-
-        return String.format(breakdown, 
-            catTotals.get("Groceries"),
-            catTotals.get("Eating out"),
-            catTotals.get("Memberships"),
-            catTotals.get("Bills"),
-            catTotals.get("Travelling"),
-            catTotals.get("Shopping"),
-            catTotals.get("Other")
-        );
-    }
-
 }

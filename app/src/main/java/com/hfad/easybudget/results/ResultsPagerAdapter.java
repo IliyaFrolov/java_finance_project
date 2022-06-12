@@ -29,7 +29,7 @@ public class ResultsPagerAdapter extends FragmentStateAdapter {
                 return new CycleSummaryFragment(account);
 
             case 2:
-                return new AveragesSummaryFragment();
+                return new AveragesSummaryFragment(account);
         }
         return null;
     }

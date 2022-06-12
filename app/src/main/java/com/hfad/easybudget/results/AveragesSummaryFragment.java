@@ -2,65 +2,76 @@ package com.hfad.easybudget.results;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.ToggleButton;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.hfad.easybudget.R;
+import com.hfad.easybudget.account.Account;
+import com.hfad.easybudget.util.Cycle;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AveragesSummaryFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.text.NumberFormat;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
 public class AveragesSummaryFragment extends Fragment {
+    private final Account account;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public AveragesSummaryFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AveragesSummaryFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AveragesSummaryFragment newInstance(String param1, String param2) {
-        AveragesSummaryFragment fragment = new AveragesSummaryFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public AveragesSummaryFragment(final Account account) {
+        super();
+        this.account = account;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_averages_summary, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_averages_summary, container, false);
+        Locale local = Locale.UK;
+        NumberFormat fmtCurrency = NumberFormat.getCurrencyInstance(local);
+
+        TextView averageIncomeText = rootView.findViewById(R.id.average_income_textView);
+        TextView averageIntEarnedText = rootView.findViewById(R.id.average_int_earned_textView);
+        TextView averageExpenseText = rootView.findViewById(R.id.average_expense_textView);
+        TextView averageTaxDeductedText = rootView.findViewById(R.id.average_tax_deducted_textView);
+
+        MaterialButtonToggleGroup toggleButtonGroup = rootView.findViewById(R.id.toggle_button_averages_results);
+        toggleButtonGroup.addOnButtonCheckedListener((button, checkedId, isChecked) -> {
+            final int checkedButtonId = button.getCheckedButtonId();
+            final MaterialButton checkedButton = button.findViewById(checkedButtonId);
+
+            if (checkedButton == null) {
+                return;
+            }
+            final Cycle cycleType = account.getCycleType();
+            Map<String, Double> averages;
+
+            if (checkedButton.getText().equals("Daily")) {
+                averages = cycleType.DAY.getAverages();
+            } else if (checkedButton.getText().equals("Weekly")) {
+                averages = cycleType.WEEK.getAverages();
+            } else if (checkedButton.getText().equals("Monthly")) {
+                averages = cycleType.MONTH.getAverages();
+            } else {
+                averages = null;
+            }
+            averageIncomeText.setText(fmtCurrency.format(averages.get("Income")));
+            averageIntEarnedText.setText(fmtCurrency.format(averages.get("Interest earned")));
+            averageExpenseText.setText(fmtCurrency.format(averages.get("Expense")));
+            averageTaxDeductedText.setText(fmtCurrency.format(averages.get("Tax deducted")));
+        });
+        return rootView;
     }
 }
