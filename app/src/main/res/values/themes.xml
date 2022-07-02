@@ -2,21 +2,40 @@
     <!-- Base application theme. -->
     <style name="Theme.EasyBudget" parent="Theme.Material3.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSurface">@color/primary</item>
+        <item name="colorOnSurface">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/colorSecondary</item>
-        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
         <!-- Customize your theme here. -->
-        <item name="backgroundTint">@color/colorSecondary</item>
-        <item name="colorAccent">@color/colorSecondary</item>
+        <item name="android:windowBackground">@color/black</item>
         <item name="android:editTextStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
-        <item name="cardViewStyle">@style/myCardViewStyle</item>
+        <item name="cardViewStyle">@style/card_view_style</item>
+        <item name="fontFamily">sans-serif-light</item>
     </style>
-    <style name="myCardViewStyle" parent="@style/Widget.Material3.CardView.Elevated" >
+
+    <style name="card_view_style" parent="@style/Widget.MaterialComponents.CardView" >
         <item name="cardCornerRadius">@dimen/card_view_corner_radius</item>
         <item name="cardElevation">@dimen/card_view_elevation</item>
         <item name="cardUseCompatPadding">true</item>
     </style>
+
+    <style name="card_view_text_theme">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="background_text_style">
+        <item name="android:textColor">@color/background</item>
+        <item name="android:textColorHint">@color/background</item>
+    </style>
+
+    <style name="date_picker_style" >
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:colorControlNormal">@color/white</item>
+    </style>
+
 </resources>

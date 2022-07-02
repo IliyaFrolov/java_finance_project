@@ -11,15 +11,18 @@
         android:theme="@style/Theme.EasyBudget">
         <activity
             android:name=".input.InputActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".results.ResultsActivity"
             android:exported="false"
-            android:parentActivityName=".home.MainActivity" />
+            android:parentActivityName=".home.MainActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".home.MainActivity"
             android:exported="true"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1a237e</color>
-    <color name="colorOnPrimary">#000051</color>
-    <color name="colorSecondary">#1de9b6</color>
-    <color name="colorOnSecondary">#00b686</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="primary">#6b1cff</color>
+    <color name="secondary">#1de9b6</color>
+    <color name="background">#757575</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
     <color name="income">#FFA726</color>
     <color name="expense">#66BB6A</color>
     <color name="interest_earned">#EF5359</color>

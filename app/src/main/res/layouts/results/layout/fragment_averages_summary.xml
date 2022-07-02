@@ -40,6 +40,7 @@
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <androidx.cardview.widget.CardView
+        android:theme="@style/card_view_text_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
@@ -64,6 +65,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:theme="@style/card_view_text_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
@@ -88,6 +90,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:theme="@style/card_view_text_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
@@ -112,6 +115,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:theme="@style/card_view_text_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="total_summary_text_view_style" >
-        <item name="android:textSize">40dp</item>
-        <item name="fontFamily">sans-serif-light</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-</resources>
