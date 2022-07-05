@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -62,8 +64,10 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
     }
 
     public void addEntry(String strDate, HashMap<String, Double> numericInput) {
+        isExpanded = false;
         dates.add(strDate);
         numericListMap.add(numericInput);
+        notifyItemInserted(getEntryPos());
     }
 
     public int getEntryPos() {
@@ -104,7 +108,16 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
                 } else {
                     isExpanded = false;
                 }
-                notifyItemChanged(position);
+                notifyItemChanged(holder.getAdapterPosition());
+            }
+        });
+
+        holder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                numericListMap.remove(holder.getAdapterPosition());
+                dates.remove(holder.getAdapterPosition());
+                notifyItemRemoved(holder.getAdapterPosition());
             }
         });
     }
@@ -118,6 +131,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         CardView cardView;
         LinearLayout expandableLayout;
         TextView headerText, incomeText, expenseText, interestText, taxText;
+        ImageView image;
 
         public ViewHolder(@NonNull CardView itemView) {
             super(itemView);
@@ -128,6 +142,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
             expenseText = itemView.findViewById(R.id.entry_expense_text);
             interestText = itemView.findViewById(R.id.entry_interest_text);
             taxText = itemView.findViewById(R.id.entry_tax_text);
+            image = itemView.findViewById(R.id.entry_button);
         }
     }
 }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:theme="@style/card_view_text_theme"
     android:id="@+id/card_view_entry"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"
+    android:theme="@style/card_view_text_theme"
     app:cardUseCompatPadding="true">
 
     <LinearLayout
@@ -15,11 +15,29 @@
         android:orientation="vertical"
         android:padding="@dimen/padding">
 
-        <TextView
-            android:id="@+id/entry_header_text"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="@dimen/header_text_size" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/entry_header_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/header_text_size" />
+
+            <ImageView
+                android:id="@+id/entry_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="50dp"
+                android:layout_gravity="fill"
+                android:backgroundTint="?attr/colorSecondary"
+                android:background="@drawable/circle_background"
+                android:padding="13dp"
+                android:src="@drawable/ic_baseline_close_24"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/entry_expandable_layout"
@@ -32,25 +50,25 @@
                 android:id="@+id/entry_income_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/items_text_size"/>
+                android:textSize="@dimen/items_text_size" />
 
             <TextView
                 android:id="@+id/entry_expense_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/items_text_size"/>
+                android:textSize="@dimen/items_text_size" />
 
             <TextView
                 android:id="@+id/entry_interest_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/items_text_size"/>
+                android:textSize="@dimen/items_text_size" />
 
             <TextView
                 android:id="@+id/entry_tax_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/items_text_size"/>
+                android:textSize="@dimen/items_text_size" />
 
         </LinearLayout>
     </LinearLayout>
