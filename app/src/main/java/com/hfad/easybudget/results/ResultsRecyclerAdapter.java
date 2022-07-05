@@ -41,15 +41,15 @@ public class ResultsRecyclerAdapter extends RecyclerView.Adapter<ResultsRecycler
 
         final List<Map<String, Double>> summaryLog = account.getSummaryLog();
 
-        holder.initBalance.setText("Initial Balance " + fmtCurrency.format(summaryLog.get(position).get("Previous balance")));
-        holder.income.setText("Income " + fmtCurrency.format(summaryLog.get(position).get("Income")));
-        holder.expense.setText("Expense " + fmtCurrency.format(summaryLog.get(position).get("Expense")));
-        holder.interest.setText("Interest " + fmtPercent.format(summaryLog.get(position).get("Interest")));
-        holder.tax.setText("Income Tax " + fmtPercent.format(summaryLog.get(position).get("Income tax")));
-        holder.interestEarned.setText("Interest Earned " + fmtCurrency.format(summaryLog.get(position).get("Interest earned")));
-        holder.taxDeducted.setText("Tax Deducted " + fmtCurrency.format(summaryLog.get(position).get("Tax deducted")));
-        holder.profit.setText("Profit " + fmtCurrency.format(summaryLog.get(position).get("Profit")));
-        holder.balance.setText("Balance " + fmtCurrency.format(summaryLog.get(position).get("Balance")));
+        holder.initBalance.setText(fmtCurrency.format(summaryLog.get(position).get("Previous balance")));
+        holder.income.setText(fmtCurrency.format(summaryLog.get(position).get("Income")));
+        holder.expense.setText(fmtCurrency.format(summaryLog.get(position).get("Expense")));
+        holder.interest.setText(fmtPercent.format(summaryLog.get(position).get("Interest")));
+        holder.tax.setText(fmtPercent.format(summaryLog.get(position).get("Income tax")));
+        holder.interestEarned.setText(fmtCurrency.format(summaryLog.get(position).get("Interest earned")));
+        holder.taxDeducted.setText(fmtCurrency.format(summaryLog.get(position).get("Tax deducted")));
+        holder.profit.setText(fmtCurrency.format(summaryLog.get(position).get("Profit")));
+        holder.balance.setText(fmtCurrency.format(summaryLog.get(position).get("Balance")));
     }
 
     @Override

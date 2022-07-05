@@ -38,4 +38,8 @@
         <item name="android:colorControlNormal">@color/white</item>
     </style>
 
+    <style name="card_view_text_style_cycle_summary" >
+        <item name="android:textSize">12.5dp</item>
+    </style>
+
 </resources>
