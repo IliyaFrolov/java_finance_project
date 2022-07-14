@@ -63,6 +63,10 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         parcel.writeList(numericListMap);
     }
 
+    public List<HashMap<String, Double>> getNumericListMap() {
+        return numericListMap;
+    }
+
     public void addEntry(String strDate, HashMap<String, Double> numericInput) {
         isExpanded = false;
         dates.add(strDate);
@@ -103,11 +107,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         holder.headerText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (holder.expandableLayout.getVisibility() == View.GONE) {
-                    isExpanded = true;
-                } else {
-                    isExpanded = false;
-                }
+                isExpanded = holder.expandableLayout.getVisibility() == View.GONE;
                 notifyItemChanged(holder.getAdapterPosition());
             }
         });

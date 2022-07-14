@@ -82,6 +82,10 @@ public class CashFlow implements Parcelable {
 
     public static void close() {
         CashFlow.totals.remove("Profit");
+        CashFlow.totals.remove("Income");
+        CashFlow.totals.remove("Expense");
+        CashFlow.totals.remove("Interest earned");
+        CashFlow.totals.remove("Tax deducted");
     }
 
     @Override

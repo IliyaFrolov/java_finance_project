@@ -18,7 +18,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public class EntriesFragment extends Fragment {
-    private EntriesAdapter entriesAdapter = new EntriesAdapter();
+    private EntriesAdapter entriesAdapter;
+
+    public EntriesFragment() {
+        entriesAdapter = new EntriesAdapter();
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +39,10 @@ public class EntriesFragment extends Fragment {
         recyclerView.setAdapter(entriesAdapter);
         recyclerView.setHasFixedSize(true);
         return recyclerView;
+    }
+
+    public List<HashMap<String, Double>> getNumericListMap() {
+        return entriesAdapter.getNumericListMap();
     }
 
     public void updateEntries(String strDate, HashMap<String, Double> numericInput) {

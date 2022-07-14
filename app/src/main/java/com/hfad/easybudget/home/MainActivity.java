@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_DATE = "date";
     public static final String EXTRA_NUMERIC_INPUT = "numericInput";
     private boolean hasEntries = false;
-    private ArrayList<CashFlow> cashFlowList = new ArrayList<>();
 
     private ActivityResultLauncher<Intent> getResult = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -41,12 +40,7 @@ public class MainActivity extends AppCompatActivity {
                     if (mainIntent != null) {
                         String strDate =  (String)mainIntent.getExtras().get(MainActivity.EXTRA_DATE);
                         HashMap<String, Double> numericInput = (HashMap)mainIntent.getExtras().get(MainActivity.EXTRA_NUMERIC_INPUT);
-                        cashFlowList.add(new CashFlow(
-                                numericInput.get("Income"),
-                                numericInput.get("Expense"),
-                                numericInput.get("Interest"),
-                                numericInput.get("Tax")
-                        ));
+
                         if (!hasEntries) {
                             hasEntries = true;
                             EntriesFragment entriesFragment = new EntriesFragment();
@@ -73,14 +67,30 @@ public class MainActivity extends AppCompatActivity {
         buttonCalculate.setOnClickListener((View view) -> {
             Fragment mainFrag = getSupportFragmentManager().findFragmentByTag("main_fragment");
 
-            if (mainFrag == null) {
+            Fragment entriesFragment =
+                    getSupportFragmentManager().findFragmentById(R.id.main_fragment_container);
+
+            if (mainFrag == null && !((EntriesFragment) entriesFragment).getNumericListMap().isEmpty()) {
+                List<HashMap<String, Double>> numericListMap = ((EntriesFragment) entriesFragment).getNumericListMap();
                 Intent resultsIntent = new Intent(this, ResultsActivity.class);
                 TextInputLayout initBalanceText = findViewById(R.id.main_editText_init_balance);
                 String initBalanceString = initBalanceText.getEditText().getText().toString();
                 Double initBalance = initBalanceString.isEmpty() ? 0.00 : Double.parseDouble(initBalanceString.replaceAll("[£,]", ""));
+                ArrayList<CashFlow> cashFlowList = new ArrayList<>();
+
+                for (HashMap<String, Double> numericList: numericListMap) {
+                    cashFlowList.add(new CashFlow(
+                            numericList.get("Income"),
+                            numericList.get("Expense"),
+                            numericList.get("Interest"),
+                            numericList.get("Tax")
+                    ));
+                }
+
                 resultsIntent.putParcelableArrayListExtra(ResultsActivity.EXTRA_CASHFLOW, cashFlowList);
                 resultsIntent.putExtra(ResultsActivity.EXTRA_INIT_BALANCE, initBalance);
                 startActivity(resultsIntent);
+
             } else {
                 Toast.makeText(this, "Add entries first!", Toast.LENGTH_LONG).show();
             }
@@ -104,6 +114,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("has_entries", hasEntries);
-        outState.putParcelableArrayList("cash_flow_list", cashFlowList);
     }
 }
