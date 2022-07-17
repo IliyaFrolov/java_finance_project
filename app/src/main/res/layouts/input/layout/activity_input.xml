@@ -39,7 +39,7 @@
             android:id="@+id/date_picker_input"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/primary"
+            android:background="?attr/colorSurface"
             android:calendarViewShown="false"
             android:datePickerMode="spinner"
             android:theme="@style/date_picker_style"/>

@@ -98,10 +98,10 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         String tax = fmtPercent.format(numericListMap.get(position).get(items.get(3)));
 
         holder.headerText.setText(dates.get(position));
-        holder.incomeText.setText(items.get(0) + " " + income);
-        holder.expenseText.setText(items.get(1) + " "  + expense);
-        holder.interestText.setText(items.get(2) + " "  + interest);
-        holder.taxText.setText(items.get(3) + " "  + tax);
+        holder.incomeText.setText(income);
+        holder.expenseText.setText(expense);
+        holder.interestText.setText(interest);
+        holder.taxText.setText(tax);
         holder.expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
 
         holder.headerText.setOnClickListener(new View.OnClickListener() {

@@ -26,7 +26,8 @@
         android:id="@+id/tab_results"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabTextColor="?attr/colorOnSurface"/>
+        app:tabIndicatorColor="@color/secondary"
+        app:tabTextColor="?attr/colorOnSurface" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager_results"
