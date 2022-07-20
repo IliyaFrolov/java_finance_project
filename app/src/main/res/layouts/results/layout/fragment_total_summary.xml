@@ -93,7 +93,7 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="10dp"
                             android:text="Income"
-                            android:textSize="12dp" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/income_percent_total"
@@ -121,7 +121,7 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="10dp"
                             android:text="Interest Earned"
-                            android:textSize="12dp" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/intEarned_percent_total"
@@ -152,7 +152,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="25dp"
                     android:layout_marginTop="20dp"
-                    android:text="Total Income Split:"
+                    android:text="Total Income Split"
                     android:textSize="23sp"
                     android:textStyle="bold" />
 
@@ -274,7 +274,7 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="10dp"
                             android:text="Expense"
-                            android:textSize="12dp" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/expense_percent_total"
@@ -302,7 +302,7 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="10dp"
                             android:text="Tax Deducted"
-                            android:textSize="12dp" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/taxDeducted_percent_total"
@@ -333,7 +333,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="25dp"
                     android:layout_marginTop="20dp"
-                    android:text="Total Expense Split:"
+                    android:text="Total Expense Split"
                     android:textSize="23sp"
                     android:textStyle="bold" />
 

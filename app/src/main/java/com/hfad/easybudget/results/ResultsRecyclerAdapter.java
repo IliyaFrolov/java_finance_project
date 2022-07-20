@@ -1,7 +1,6 @@
 package com.hfad.easybudget.results;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -11,10 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hfad.easybudget.R;
 import com.hfad.easybudget.account.Account;
-import com.hfad.easybudget.util.CashFlow;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -29,7 +26,7 @@ public class ResultsRecyclerAdapter extends RecyclerView.Adapter<ResultsRecycler
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        CardView view = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_results, parent, false);
+        CardView view = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_cycle_results, parent, false);
         return new ViewHolder(view);
     }
 
